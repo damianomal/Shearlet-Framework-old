@@ -21,20 +21,22 @@ CLUSTER_NUMBER = 10;
 close all;
 [COORDINATES, ~] = shearlet_detect_points( VID(:,:,1:91), COEFFS, SCALES, [], LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS, false);
 
-TOTAL_FRAMES = size(unique(COORDINATES(:,3)));
+[UNIQUE_FRAMES, FRAMES_INDICES] = unique(COORDINATES(:,3));
+TOTAL_FRAMES = length(UNIQUE_FRAMES);
 
 output_cell = cell(TOTAL_FRAMES,2);
 
-% [SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,COORDINATES(1,3),SCALES,CLUSTER_NUMBER);
+[SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,COORDINATES(1,3),SCALES,CLUSTER_NUMBER);
+save('Shearlet-Framework\Shearlet_detection_clustering\saved_cluster','SORT_CTRS')
 % if TOTAL_FRAMES<2
 %     exit
 % end
-    
-for i = 1:TOTAL_FRAMES % REMEMBER TO LOAD SORT_CTRS FROM A FILE ONLY ONCE
-    [SORTED_CL_IMAGE, ~] = shearlet_cluster_single_frame(COEFFS,idxs,COORDINATES(i,3),SCALES,CLUSTER_NUMBER,SORT_CTRS);
-    
-    output_cell{i, 1} = SORTED_CL_IMAGE;
-    output_cell{i, 2} = COORDINATES(i,3);
-end
+%     
+% for i = 1:TOTAL_FRAMES % REMEMBER TO LOAD SORT_CTRS FROM A FILE ONLY ONCE
+%     [SORTED_CL_IMAGE, ~] = shearlet_cluster_single_frame(COEFFS,idxs,UNIQUE_FRAMES(i),SCALES,CLUSTER_NUMBER,SORT_CTRS);
+%     
+%     output_cell{i, 1} = SORTED_CL_IMAGE;
+%     output_cell{i, 2} = COORDINATES(find(COORDINATES(:,3)==i),:);
+% end
 
 
