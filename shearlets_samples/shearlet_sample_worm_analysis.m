@@ -15,7 +15,6 @@ camlight
 view([101.1 21.2]);
 camlight
 
-
 %%
 
 % surface, bottom (S1)
@@ -23,28 +22,27 @@ coords = [104 64 40];
 
 % surface, front (S2)
 coords = [85 64 19];
-
-% surface, side (S3)
-coords = [85 84 40];
-
-% still spatial corner (C1)
+% 
+% % surface, side (S3)
+% coords = [85 84 40];
+% 
+% % still spatial corner (C1)
 coords = [65 84 20];
-
-% still spatial edge (E1)
-coords = [104 64 20];
-
-% still spatial edge (E2)
-coords = [104 84 40];
-
-% still spatial edge (E3)
-coords = [85 84 20];
+% 
+% % still spatial edge (E1)
+% coords = [104 64 20];
+% 
+% % still spatial edge (E2)
+% coords = [104 84 40];
+% 
+% % still spatial edge (E3)
+% coords = [85 84 20];
 
 % surface, bottom (SI1)
-% coords = [(129-90+40) 64 90];
+coords = [(129-90+40) 64 90];
 
 % surface, side (SIDE, weird behaviour)
-% coords = [85 84 65];
-
+coords = [85 84 65];
 
 %%
 
@@ -54,17 +52,19 @@ clear COEFFS idxs
 
 % coords_show = coords;
 
-
 %%
 
 figure(fH);
 clf;
 
-coords_show = [85 83 20];
+coords_show = [85 84 65];
 
 % displays the structure
 isosurface(a > 0);
 axis([0 128 0 128 0 128]);
+xlabel('column');
+ylabel('row');
+zlabel('time');
 
 % applies two lights
 view([-132.3000 2.8]);
@@ -76,17 +76,14 @@ camlight
 % sets the main view of the structure
 view([109.5 10.98]);
 
-
 hold on;
 plot3(coords_show(2), coords_show(1), coords_show(3), 'ro', 'MarkerSize', 5);
 plot3(coords_show(2), coords_show(1), coords_show(3), 'ro', 'MarkerSize', 20);
 hold off;
 
-DESCR = shearlet_descriptor_for_point( COEFFS, coords_show(1), coords_show(2), coords_show(3), 2, idxs );
+DESCR = shearlet_descriptor_for_point( COEFFS, coords_show(1), coords_show(2), coords_show(3), 3, idxs );
 shearlet_show_descriptor(DESCR);
 
-
- 
  
 % edited = true;
 % 

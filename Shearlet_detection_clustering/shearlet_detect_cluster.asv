@@ -30,7 +30,7 @@ output_cell = cell(TOTAL_FRAMES,2);
 %     exit
 % end
     
-for i = 1:TOTAL_FRAMES % REMEMBER TO LOAD SORT_CTRS FROM A FILE ONLY ONCE
+for i = 1:TOTAL_FRAMES
     [SORTED_CL_IMAGE, ~] = shearlet_cluster_single_frame(COEFFS,idxs,COORDINATES(i,3),SCALES,CLUSTER_NUMBER,SORT_CTRS);
     
     output_cell{i, 1} = SORTED_CL_IMAGE;
