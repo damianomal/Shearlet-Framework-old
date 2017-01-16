@@ -1,4 +1,4 @@
-function [ output_name ] = shearlet_create_video_outname( video_filename, scales, min_threshold, spt_window, cone_weights)
+function [ output_name ] = shearlet_create_video_outname( video_filename, scales, min_threshold, spt_window, cone_weights,file_format)
 %SHEARLET_CREATE_VIDEO_OUTNAME Creates a filename starting from the values
 %contained in the parameters passed.
 %
@@ -30,6 +30,9 @@ scales_text = 'sc_';
 for i =1:numel(scales)
     scales_text = strcat(scales_text, int2str(scales(i)), '_');
 end
+if nargin < 6
+    file_format = '.avi';
+end
 
 thresh_text = strcat('th_', num2str(min_threshold, 3));
 
@@ -37,7 +40,7 @@ thresh_text = strrep(thresh_text, '.', '_');
 
 win_text = strcat('win_', int2str(spt_window));
 
-output_name = strcat(name, '_', scales_text, thresh_text, '_', win_text, '.avi');
+output_name = strcat(name, '_', scales_text, thresh_text, '_', win_text, file_format);
 
 end
 

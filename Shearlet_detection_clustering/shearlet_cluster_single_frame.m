@@ -1,4 +1,4 @@
-function [SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,TARGET_FRAME,SCALE_USED,CLUSTER_NUMBER,SORT_CTRS )
+function [FINAL_CL_IMAGE, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,TARGET_FRAME,SCALE_USED,CLUSTER_NUMBER,SORT_CTRS )
 
 % calculate the representation for a specific frame (frame number 37 of the
 % sequence represented in the VID structure)
@@ -6,18 +6,18 @@ function [SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idx
 REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true, true);
 
 % clusters the representations for this particular frame in N clusters
-if(nargin < 7)
-   
-[CL_IND, CTRS] = shearlet_cluster_coefficients(REPRESENTATION, CLUSTER_NUMBER, [size(COEFFS,1) size(COEFFS,2)]);
-
-% sorts the clusters with respect to their size, and also rea
-
-[SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_sort(CL_IND, CTRS);
-
-% shows a colormap associated with the clusters found
-
-shearlet_cluster_image(SORTED_CL_IMAGE, CLUSTER_NUMBER, true, false);
-return
+if(nargin < 6)
+    
+    [FINAL_CL_IMAGE, CTRS] = shearlet_cluster_coefficients(REPRESENTATION, CLUSTER_NUMBER, [size(COEFFS,1) size(COEFFS,2)]);
+    
+    % sorts the clusters with respect to their size, and also rea
+    
+    [FINAL_CL_IMAGE, SORT_CTRS] = shearlet_cluster_sort(FINAL_CL_IMAGE, CTRS);
+    
+    % shows a colormap associated with the clusters found
+    
+    shearlet_cluster_image(FINAL_CL_IMAGE, CLUSTER_NUMBER, true, false);
+    return
 
 end
 %% 
@@ -42,7 +42,8 @@ end
 % 
 % TARGET_FRAME = 150;
 % SCALE_USED = 2;
-
+if(nargin == 6)
+    
 REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true);
 
 % clusters the representations for this particular frame using the
@@ -50,12 +51,13 @@ REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, tru
 % object is the one calculated in the previous section of this MATLAB
 % script)
 
-CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, SORT_CTRS);
+FINAL_CL_IMAGE = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, SORT_CTRS);
 
 % shows a colormap associated with the clusters found
 
-shearlet_cluster_image(CL_IND, CLUSTER_NUMBER, true, false);
+shearlet_cluster_image(FINAL_CL_IMAGE, CLUSTER_NUMBER, true, false);
 
+end
 % shows a single cluster as an overlay on the original frame
 
 % CLUSTER_TO_SHOW = 5;
