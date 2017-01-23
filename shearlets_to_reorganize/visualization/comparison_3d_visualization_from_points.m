@@ -18,8 +18,8 @@ end
 % layer = fg_masks(:,:,2);
 
 
-p = patch(isosurface(smooth3(fg_masks,'box',1) > 0, 0, fg_masks));
-% p = patch(isosurface(fg_masks > 0, 0, fg_masks));
+% p = patch(isosurface(smooth3(fg_masks,'box',1) > 0, 0, fg_masks));
+p = patch(isosurface(fg_masks > 0, 0, fg_masks));
 p.FaceColor = 'interp';
 p.EdgeColor = 'none';
 
@@ -58,13 +58,14 @@ grid on
 %         'FaceLighting','gouraud');
 % end
 
-ratio = 1.1;
+% ratio = 1.1;
+ratio = 1.5;
 
-[x, y, z] = ellipsoid(0,0,0,ratio*5.9,ratio*3.25,ratio*3.25,30);
+[x, y, z] = ellipsoid(0,0,0,ratio*3,ratio*3.25,ratio*3.25,30);
 sphere_color = ones(31);
 
-size(x)
-size(sphere_color)
+size(x);
+size(sphere_color);
 
 hold on
 

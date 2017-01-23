@@ -1,4 +1,4 @@
-function [ descr ] = shearlet_descriptor_for_point( big_coeffs, x, y, t, scale, shearletIdxs )
+function [ descr, mat, c1, c2, c3 ] = shearlet_descriptor_for_point( big_coeffs, x, y, t, scale, shearletIdxs )
 %SHEARLET_DESCRIPTOR_FOR_POINT Summary of this function goes here
 %   Detailed explanation goes here
 

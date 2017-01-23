@@ -19,6 +19,8 @@ else
 end
 bar(descr);
 
+axis([0 121 0 descr(1)*1.05]);
+
 %
 hold on;
 for i=1:numel(lines)
@@ -36,9 +38,9 @@ A = zeros(225,1);
 new_descr = zeros(1,225);
 new_descr(1:numel(descr)) = descr;
 
-size(res_v)
-size(descr)
-size(new_descr)
+% size(res_v);
+% size(descr);
+% size(new_descr);
 
 %
 A(res_v) = new_descr;
@@ -60,6 +62,9 @@ end
 surf(XX, YY, B);
 view([-42.7 19.6]);
 
+set(gca,'xticklabel',[])
+set(gca,'yticklabel',[])
+ 
 rotate3d on;
 
 

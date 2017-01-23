@@ -182,7 +182,7 @@ while true
     % exits the loop (the commented line should be
     % swapped with the one below it, in case the user
     % wants to see the sequence looping)
-    if(c == size(video,3))
+    if(c >= size(video,3))
         % c=2;
         break;
     end

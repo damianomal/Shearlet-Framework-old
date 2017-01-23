@@ -43,6 +43,9 @@ shiftc = 8 - ic;
 
 % ind 
 
+shiftc = shiftc(1);
+shiftr = shiftr(1);
+        
 switch ind
     
     case 1

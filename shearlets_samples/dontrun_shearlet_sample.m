@@ -77,9 +77,9 @@ comparison_heatmap_from_points(VID, floor(TRANSLATED));
 
 %%
 
-permuted = true;
+permuted = false;
 
-VIS_FG_MASKS = FG_MASKS;
+VIS_FG_MASKS = VID < 255;
 
 if(permuted)
     VIS_FG_MASKS = permute(VIS_FG_MASKS,[3 2 1]);

@@ -1,4 +1,4 @@
-function [ big_coeffs, shearletIdxs] = shearlet_transform_3D( VID, central_frame, neigh_window, shearLevels, scales, useGPU )
+function [ big_coeffs, shearletIdxs, start_index] = shearlet_transform_3D( VID, central_frame, neigh_window, shearLevels, scales, useGPU )
 %SHEARLET_TRANSFORM_3D Calculates the 3D Shearlet Transform for the passed
 %video sequence
 %
@@ -113,6 +113,8 @@ else
 end
 
 
+% outputs the start index
+start_index = start_ind;
 
 % extracts from the video sequence only the frames to consider
 Xactual = VID(:,:,start_ind:end_ind);

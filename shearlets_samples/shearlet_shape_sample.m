@@ -2,11 +2,15 @@
 
 close all;
 
-VIDW = load_video_to_mat('person01_walking_d1_uncomp.avi',160, 1,100); %parametri 1 e 7
-BG = VIDW(:,:,3);
+% VIDW = load_video_to_mat('person01_walking_d1_uncomp.avi',160, 1,100); %parametri 1 e 7
+% BG = VIDW(:,:,3);
 
-% VID = load_video_to_mat('person04_boxing_d1_uncomp.avi',160, 1,200); % parametri 1.5 e 5
-VID = load_video_to_mat('person01_handclapping_d4_uncomp.avi',160, 1,200); % parametri 1.5 e 5
+load kth_bg_averaged.mat
+
+BG = bg_averaged;
+
+VID = load_video_to_mat('person04_boxing_d1_uncomp.avi',160, 1,200); % parametri 1.5 e 5
+% VID = load_video_to_mat('person01_handclapping_d4_uncomp.avi',160, 1,200); % parametri 1.5 e 5
 % VID = load_video_to_mat('person01_walking_d1_uncomp.avi',160, 1,100);
 % VID = load_video_to_mat('person01_running_d1_uncomp.avi',160, 1,100);
 % VID = load_video_to_mat('person01_walking_d1_uncomp.avi',160, 1,100); %parametri 1 e 7
@@ -64,11 +68,11 @@ i = 90;
 step = -1;
 t = 1;
 
-vidOut = VideoWriter('handclapping_moving.avi');
-vidOut.Quality = 100;
-vidOut.FrameRate = 25;
+% vidOut = VideoWriter('handclapping_moving.avi');
+% vidOut.Quality = 100;
+% vidOut.FrameRate = 25;
 
-open(vidOut);
+% open(vidOut);
 
 count_loop = 0;
 
@@ -106,7 +110,7 @@ while true
     end
     
     fg = getframe(gcf);
-    writeVideo(vidOut, fg.cdata(50:359, 113:923, :));
+%     writeVideo(vidOut, fg.cdata(50:359, 113:923, :));
    
     key = get(gcf,'CurrentKey');
     
@@ -116,5 +120,5 @@ while true
     
 end
 
-close(vidOut);
+% close(vidOut);
 
