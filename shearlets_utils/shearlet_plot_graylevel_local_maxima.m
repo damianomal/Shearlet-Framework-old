@@ -142,7 +142,7 @@ while true
             for ind=1:size(id,1)
                 
                 subplot(1,num_plots, 3);
-                imshow(imresize(video(i(id(ind))-window:i(id(ind))+window, ...
+                imshow(imresize(xvideo(i(id(ind))-window:i(id(ind))+window, ...
                     j(id(ind))-window:j(id(ind))+window,c), 13), []);
                 
                 if(pause_between_frames)

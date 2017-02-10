@@ -39,7 +39,7 @@ function [ COORDINATES, change_map ] = shearlet_detect_points( video, coeffs, sc
 % if the user did not specify them, initializes the weights object so that
 % all the scales contributes in the same way
 if(isempty(weights))
-    weights = ones(1,numel(scales));
+    weights = ones(1,numel(scales))/3;
 end
 
 % parameters controls

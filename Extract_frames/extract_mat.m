@@ -1,8 +1,10 @@
+% This script extracts frames from a video file and savs them into a .mat files 
+% for an entire dataset of sequences explicitly defining the starting and ending  
+% frames to be extracted.
 
-% This script is written to extract frames into a .mat files for an entire
-% dataset of sequences explicitly defining the starting and ending frames to 
-% be extracted.
-% 
+%
+%
+%
 clear all 
 close all
 sequences1 = char('frontal_from_robot_circle_l','frontal_from_robot_circle_m'...

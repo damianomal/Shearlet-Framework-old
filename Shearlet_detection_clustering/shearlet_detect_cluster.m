@@ -1,4 +1,4 @@
-function output_cell = shearlet_detect_cluster(filename, VID, LOWER_THRESHOLD, SPT_WINDOW, SCALES, CONE_WEIGHTS, CLUSTER_NUMBER)
+function output_cell = shearlet_detect_cluster(VID, LOWER_THRESHOLD, SPT_WINDOW, SCALES, CONE_WEIGHTS, CLUSTER_NUMBER)
 % clear all
 % close all
 % 
@@ -39,7 +39,7 @@ for i = 1:TOTAL_FRAMES % REMEMBER TO LOAD SORT_CTRS FROM A FILE ONLY ONCE
     [FINAL_CL_IMAGE, ~] = shearlet_cluster_single_frame(COEFFS,idxs,UNIQUE_FRAMES(i),SCALES,CLUSTER_NUMBER,SORT_CTRS);
     
     output_cell{i, 1} = FINAL_CL_IMAGE;
-    output_cell{i, 2} = COORDINATES(find(COORDINATES(:,3)==i),:);
+    output_cell{i, 2} = COORDINATES(find(COORDINATES(:,3)==UNIQUE_FRAMES(i)),:);
 end
 % OUT_NAME = shearlet_create_video_outname( filename, SCALES, LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS,'.mat');
 % save(['Dataset\Outputs\',OUT_NAME],'output_cell','filename')
