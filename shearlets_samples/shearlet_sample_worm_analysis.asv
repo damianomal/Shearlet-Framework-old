@@ -500,7 +500,7 @@ mmap = polarmap(121);
 hold on;
 
 for t=20
-    % for t=70:78
+% for t=70:78
     for y=2:1:size(COEFFS,2)-1
         for x = 2:1:size(COEFFS,1)-1
             %         for t=2:10:size(COEFFS,3)-1
@@ -593,7 +593,7 @@ class_ids = zeros(size(a));
 
 TARGET_SCALE = 2;
 
-tic;
+tic; 
 
 figure(fH);
 cla;
@@ -602,8 +602,7 @@ cla;
 % edges_descr = edges_descr ./ max(edges_descr(:));
 % corners_descr = corners_descr ./ max(corners_descr(:));
 
-% DESCR_LONG = zeros(89*1600, 121);
-DESCR_LONG = zeros(16772, 121);
+DESCR_LONG = zeros(89*1600, 121);
 
 index = 0;
 
@@ -613,42 +612,22 @@ for t=20:108
     
     [II, JJ] = find(a(:,:,t) < 1);
     
-    if(t ~= 20 && t ~= 108)
-        
-%         [II, JJ] = find(a(:,:,t) < 1);
-
-        ZZ = [II JJ];
-
-        % size(ZZ)
-
-        Zref = ZZ(ZZ(:,1) == max(ZZ(:,1)) | ZZ(:,1) == min (ZZ(:,1)) | ...
-                  ZZ(:,2) == max(ZZ(:,2)) | ZZ(:,2) == min (ZZ(:,2)),:);
-
-        % size(Zref)
-
-        % Zref(1,:)
-
-        II = Zref(:,1);
-        JJ = Zref(:,2);
-
-    end
-    
     for i=1:numel(II)
         
         
         % ----------------------
         
         DESCR = shearlet_descriptor_for_point(COEFFS, II(i), JJ(i), t, TARGET_SCALE, idxs);
-        %
-        %         % ----------------------
-        %
-        %         DESCR = DESCR ./ max(DESCR(:));
-        %
-        %         res = [norm(DESCR - surface_descr) norm(DESCR - edges_descr) norm(DESCR - corners_descr)];
-        %
-        %         [~, ind] = min(res);
-        %
-        %         class_ids( II(i), JJ(i), t ) = ind;
+% 
+%         % ----------------------
+%         
+%         DESCR = DESCR ./ max(DESCR(:));
+%         
+%         res = [norm(DESCR - surface_descr) norm(DESCR - edges_descr) norm(DESCR - corners_descr)];
+%         
+%         [~, ind] = min(res);
+%         
+%         class_ids( II(i), JJ(i), t ) = ind;
         
         % ---------------------
         
@@ -663,124 +642,10 @@ end
 toc;
 
 
-%%
+%% 
 opts = statset('Display','final', 'MaxIter',200);
 
-if(~exist('cluster_map'))
-    cluster_map = shearlet_init_cluster_map;
-end
-
-NUM_CLUSTER = 3;
-
-% DESCR_LONG_NORM = zeros(size(DESCR_LONG));
-% 
-% for i =1:size(DESCR_LONG,1)
-%     DESCR_LONG_NORM(i, :) = DESCR_LONG(i,:) ./ max(DESCR_LONG(i,:));
-% end
-
-
-[cidx, ctrs] = kmeans(DESCR_LONG, NUM_CLUSTER, 'Distance', 'sqeuclidean', 'Replicates', 5, 'Options',opts);
-
-clust_ids = zeros(size(a));
-
-index = 0;
-
-tic;
-
-
-for t=20:108
-    
-    [II, JJ] = find(a(:,:,t) < 1);
-    
-    if(t ~= 20 && t ~= 108)
-        
-%         [II, JJ] = find(a(:,:,t) < 1);
-
-        ZZ = [II JJ];
-
-        % size(ZZ)
-
-        Zref = ZZ(ZZ(:,1) == max(ZZ(:,1)) | ZZ(:,1) == min (ZZ(:,1)) | ...
-                  ZZ(:,2) == max(ZZ(:,2)) | ZZ(:,2) == min (ZZ(:,2)),:);
-
-        % size(Zref)
-
-        % Zref(1,:)
-
-        II = Zref(:,1);
-        JJ = Zref(:,2);
-
-    end
-    
-    
-    for i=1:numel(II)
-        index = index + 1;
-        clust_ids(II(i), JJ(i), t+start_ind-1) = cidx(index);
-    end
-    
-end
-
-toc;
-
-figure(fH);
-clf;
-
-% TARGET_SCALE = 2;
-
-% displays the structure
-
-if(true)
-    [faces,verts, C] = isosurface(a > 0, 0, a);
-    p = patch('Faces', faces, 'Vertices', verts);
-    
-    p.FaceColor = [0 0.85 0.55];
-    p.EdgeColor = 'none';
-    
-    set(p, 'Faces', faces, 'Vertices', verts);
-    
-    colormap([0 0.85 0.55])
-end
-
-% isosurface(a > 0);
-axis([0 128 0 128 0 128]);
-xlabel('y','FontSize',24,'FontWeight','bold');
-ylabel('x','FontSize',24,'FontWeight','bold');
-zlabel('time','FontSize',24,'FontWeight','bold');
-grid on;
-set(gca,'xticklabel',[])
-set(gca,'yticklabel',[])
-set(gca,'zticklabel',[])
-
-% set size to take a screenshot
-set(fH, 'Position', [148 210 961 764]);
-
-view([154.5000 10.8000]);
-camlight
-lighting phong
-
-% sets the main view of the structure
-view([az1 el1]);
-
-set(gcf, 'Position', [934 208 961 763]);
-view([az1 el1]);
-
-hold on;
-
-colors = ['bo';
-    'go';
-    'ro';
-    'yo' ];
-
-for t=20:108
-        
-    for c=1:NUM_CLUSTER
-        [IIw, JJw] = find(clust_ids(:,:,t) == c);
-        plot3(JJw, IIw,(t+start_ind-1)*ones(size(IIw)), 'Color', cluster_map(c,:), 'MarkerSize', 1, 'LineWidth', 2);
-    end
-    
-end
-
-hold off;
+[cidx, ctrs] = kmeans(DESCR_LONG, 4, 'Distance', 'sqeuclidean', 'Replicates',5, 'Options',opts);
 
 
 %%
@@ -828,9 +693,9 @@ view([az1 el1]);
 hold on;
 
 for t=20:108
-    
+
     [II, JJ] = find(class_ids(:,:,t) == 3);
-    plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'ro', 'MarkerSize', 1, 'LineWidth', 2);
+	plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'ro', 'MarkerSize', 1, 'LineWidth', 2);
     
 end
 

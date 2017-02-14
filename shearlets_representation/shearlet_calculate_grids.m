@@ -5,7 +5,7 @@ global square_mats
 
 win = 1;
 
-xwin = uint8(x-win:x+win);
+xwin =  uint8(x-win:x+win);
 ywin =  uint8(y-win:y+win);
 twin =  uint8(t-win:t+win);
 

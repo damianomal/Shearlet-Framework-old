@@ -1,0 +1,7 @@
+[II, JJ] = find(a(:,:,20) < 1);
+
+ZZ = [II JJ];
+
+size(ZZ)
+
+Zref = ZZ(ZZ(
