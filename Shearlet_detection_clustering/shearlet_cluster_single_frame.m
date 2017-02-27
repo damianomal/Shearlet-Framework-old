@@ -16,7 +16,7 @@ if(nargin < 6)
     
     % shows a colormap associated with the clusters found
     
-    shearlet_cluster_image(FINAL_CL_IMAGE, CLUSTER_NUMBER, true, false);
+    shearlet_cluster_image(FINAL_CL_IMAGE, CLUSTER_NUMBER, false, false);
     return
 
 end
