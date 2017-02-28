@@ -1,4 +1,4 @@
-function [ cl_video_idx, cl_video_max ] = shearlet_video_clustering_full( X, centroids, prefix, save_to_mat, end_offset)
+function [ cl_video_idx, cl_video_max ] = shearlet_video_clustering_full( X, centroids, prefix, save_to_mat)
 %SHEARLET_VIDEO_CLUSTERING Clusters the descriptors passed w.r.t. the
 %chosen centroids
 %
@@ -20,12 +20,8 @@ function [ cl_video_idx, cl_video_max ] = shearlet_video_clustering_full( X, cen
 
 % 2016 Damiano Malafronte.
 
-if(nargin < 4 || isempty(save_to_mat))
-    save_to_mat = true;
-end
-
-if(nargin < 5 || isempty(save_to_mat))
-    end_offset = 3;
+if(nargin < 4)
+    save_to_mat = false;
 end
 
 % initialize the structures needed for this operation
@@ -43,17 +39,15 @@ for c=1:size(centroids,1)
 end
 
 %
-t_start = 1;
-t_end= 91;
+t_start = 2;
+t_end= 90;
 
 ind = 46;
 
 T_LIMIT = 0;
 
-run = true;
-
 %
-while run
+while true
     
     fprintf('Transform with ind: %d.\n', ind);
     
@@ -68,16 +62,15 @@ while run
     
     
     %
-    for t=t_start:t_end-end_offset
+    for t=t_start:t_end
         
         if(T_LIMIT > 0 && t == T_LIMIT)
             break;
         end
         
         %
-        if(~(ind == (size(X,3)- 45)) && t + start_cut - 1 > size(X,3) - 45)
+        if(~(ind == (size(X,3)- 45)) && t + start_cut > size(X,3) - 45)
             fprintf('CUT\n');
-            end_offset = 0;
             break;
         end
         
@@ -111,7 +104,7 @@ while run
     %
     %     end
     
-    t_start = 46+1-end_offset;
+    t_start = 46;
     
     %
     if(ind == (size(X,3)- 45))

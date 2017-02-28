@@ -1,11 +1,13 @@
-function [ result ] = shearlet_overlay_cluster( image, cl_image, cl_number, show, normalize)
+function [ result, mask] = shearlet_overlay_cluster( image, cl_image, cl_number, show, normalize)
 %SHEARLET_OVERLAY_CLUSTER Summary of this function goes here
 %   Detailed explanation goes here
 
 % result = cat(3, image, image, image);
+mask = zeros(size(cl_image));
 
-mask = cl_image == cl_number;
-
+for c = cl_number
+    mask = mask | cl_image == c;
+end
 result = cat(3, image, image, image);
 
 for x=1:size(mask,1)

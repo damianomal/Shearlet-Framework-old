@@ -1,4 +1,8 @@
 
+
+close all;
+clear all;
+
 % generate the structure
 a = shearlets_synthetic_worm( 128, 20, 0.5);
 
@@ -147,6 +151,9 @@ corners_coord =  [64   44  19;
     64   83  19;
     103  83  19];
 
+corners_coord = [COORDINATES(1:3, :);
+    COORDINATES(8:11,:)];
+
 corners_descr = zeros(121,1);
 
 for i=1:size(corners_coord,1)
@@ -197,7 +204,7 @@ for i=1:size(edges_coord,1)
     
 end
 
-% edges_descr = edges_descr ./ size(edges_coord,1);
+edges_descr = edges_descr ./ size(edges_coord,1);
 shearlet_show_descriptor(edges_descr);
 
 set(gcf, 'Position', [934 208 961 763]);
@@ -240,7 +247,7 @@ clf;
 % view([az1 el1]);
 
 
-comparison_3d_visualization_from_points(VIS_FG_MASKS, COORDINATES(1,:), permuted);
+comparison_3d_visualization_from_points(VIS_FG_MASKS, edges_coord, permuted);
 
 axis([0 128 0 128 0 128]);
 xlabel('y','FontSize',24,'FontWeight','bold');
@@ -258,6 +265,89 @@ plot3( [84 84], [63 46], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
 plot3( [84 84], [102 85], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
 plot3( [45 45], [102 85], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
 hold off;
+
+
+
+
+%% descrittore medio di 4 punti sugli edge (altro)
+
+% edges_coord = [65 84 40;
+%                   104 84 40;
+%                   104 45 40;
+%                   65 45 40];
+
+edges_coord2 = [104 64 64];
+
+edges_descr2 = zeros(121,1);
+
+for i=1:size(edges_coord2,1)
+    edges_descr2 = edges_descr + shearlet_descriptor_for_point(COEFFS, edges_coord2(i,1), ...
+        edges_coord2(i,2), edges_coord2(i,3)-start_ind+1, 2, idxs);
+    
+end
+
+% edges_descr = edges_descr ./ size(edges_coord,1);
+shearlet_show_descriptor(edges_descr2);
+
+set(gcf, 'Position', [934 208 961 763]);
+view([-40.3 25.2]);
+
+
+figure(fH);
+clf;
+
+% p = patch(isosurface(a > 0, 0, a));
+% p.FaceColor = 'interp';
+% p.EdgeColor = 'none';
+%
+% axis([0 128 0 128 0 128]);
+% xlabel('y','FontSize',24,'FontWeight','bold');
+% ylabel('x','FontSize',24,'FontWeight','bold');
+% zlabel('time','FontSize',24,'FontWeight','bold');
+% grid on;
+% set(gca,'xticklabel',[])
+% set(gca,'yticklabel',[])
+% set(gca,'zticklabel',[])
+%
+% % set size to take a screenshot
+% set(fH, 'Position', [148 210 961 764]);
+%
+%
+% % applies two lights
+% % view([-132.3000 2.8]);
+% % camlight
+% %
+% % view([101.1 21.2]);
+% % camlight
+%
+% view([154.5000 10.8000]);
+% camlight
+% lighting phong
+%
+% % sets the main view of the structure
+% % view([109.5 10.98]);
+% view([az1 el1]);
+
+
+comparison_3d_visualization_from_points(VIS_FG_MASKS, edges_coord2, permuted);
+
+axis([0 128 0 128 0 128]);
+xlabel('y','FontSize',24,'FontWeight','bold');
+ylabel('x','FontSize',24,'FontWeight','bold');
+zlabel('time','FontSize',24,'FontWeight','bold');
+
+view([az1 el1]);
+
+hold on;
+% plot3( [84 84], [65 65], [23 60], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+% plot3( [84 84], [104 104], [23 60], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+% plot3( [45 45], [104 104], [23 60], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+% % plot3( [45 45], [65 65], [23 60], 'LineWidth', 8, 'Color', [1 0.2 0.3]);
+% plot3( [84 84], [63 46], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+% plot3( [84 84], [102 85], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+% plot3( [45 45], [102 85], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+hold off;
+
 
 %% descrittore medio di 4 punti sulla superficie
 
@@ -315,6 +405,8 @@ clear COEFFS idxs
 
 %%
 
+VID = a;
+
 % parameters for the detection process
 LOWER_THRESHOLD = 0.3;
 SPT_WINDOW = 17;
@@ -334,6 +426,7 @@ close all;
 
 permuted = false;
 
+
 VIS_FG_MASKS = VID < 255;
 
 % if(permuted)
@@ -342,7 +435,7 @@ VIS_FG_MASKS = VID < 255;
 %
 close all;
 
-comparison_3d_visualization_from_points(VIS_FG_MASKS, COORDINATES(1,:), permuted);
+comparison_3d_visualization_from_points(VIS_FG_MASKS, COORDINATES, permuted);
 
 axis([0 128 0 128 0 128]);
 xlabel('y','FontSize',24,'FontWeight','bold');
@@ -595,12 +688,15 @@ TARGET_SCALE = 2;
 
 tic;
 
+fH = figure('Position', [148 554 560 420]);
+
 figure(fH);
 cla;
 
-% surface_descr = surface_descr ./ max(surface_descr(:));
-% edges_descr = edges_descr ./ max(edges_descr(:));
-% corners_descr = corners_descr ./ max(corners_descr(:));
+surface_descr_n = surface_descr ./ max(surface_descr(:));
+edges_descr_n = edges_descr ./ max(edges_descr(:));
+edges_descr2_n = edges_descr2 ./ max(edges_descr2(:));
+corners_descr_n = corners_descr ./ max(corners_descr(:));
 
 % DESCR_LONG = zeros(89*1600, 121);
 DESCR_LONG = zeros(16772, 121);
@@ -615,22 +711,22 @@ for t=20:108
     
     if(t ~= 20 && t ~= 108)
         
-%         [II, JJ] = find(a(:,:,t) < 1);
-
+        %         [II, JJ] = find(a(:,:,t) < 1);
+        
         ZZ = [II JJ];
-
+        
         % size(ZZ)
-
+        
         Zref = ZZ(ZZ(:,1) == max(ZZ(:,1)) | ZZ(:,1) == min (ZZ(:,1)) | ...
-                  ZZ(:,2) == max(ZZ(:,2)) | ZZ(:,2) == min (ZZ(:,2)),:);
-
+            ZZ(:,2) == max(ZZ(:,2)) | ZZ(:,2) == min (ZZ(:,2)),:);
+        
         % size(Zref)
-
+        
         % Zref(1,:)
-
+        
         II = Zref(:,1);
         JJ = Zref(:,2);
-
+        
     end
     
     for i=1:numel(II)
@@ -642,18 +738,17 @@ for t=20:108
         %
         %         % ----------------------
         %
-        %         DESCR = DESCR ./ max(DESCR(:));
-        %
+        DESCR_n = DESCR ./ max(DESCR(:));
+        
         %         res = [norm(DESCR - surface_descr) norm(DESCR - edges_descr) norm(DESCR - corners_descr)];
-        %
-        %         [~, ind] = min(res);
-        %
-        %         class_ids( II(i), JJ(i), t ) = ind;
+        res = [norm(DESCR_n - surface_descr_n) norm(DESCR_n - edges_descr_n) norm(DESCR_n - edges_descr2_n) norm(DESCR_n - corners_descr_n)];
+        [~, ind] = min(res);
+        class_ids( II(i), JJ(i), t ) = ind;
         
         % ---------------------
         
-        index = index + 1;
-        DESCR_LONG(index, :) = DESCR;
+        %         index = index + 1;
+        %         DESCR_LONG(index, :) = DESCR;
         
     end
     
@@ -666,59 +761,65 @@ toc;
 %%
 opts = statset('Display','final', 'MaxIter',200);
 
-if(~exist('cluster_map'))
-    cluster_map = shearlet_init_cluster_map;
-end
-
-NUM_CLUSTER = 3;
-
-% DESCR_LONG_NORM = zeros(size(DESCR_LONG));
-% 
-% for i =1:size(DESCR_LONG,1)
-%     DESCR_LONG_NORM(i, :) = DESCR_LONG(i,:) ./ max(DESCR_LONG(i,:));
+% if(~exist('cluster_map'))
+cluster_map = shearlet_init_cluster_map;
 % end
 
+NUM_CLUSTER = 12;
+DESCR_LONG_NORM = zeros(size(DESCR_LONG));
 
-[cidx, ctrs] = kmeans(DESCR_LONG, NUM_CLUSTER, 'Distance', 'sqeuclidean', 'Replicates', 5, 'Options',opts);
+for i =1:size(DESCR_LONG,1)
+    DESCR_LONG_NORM(i, :) = DESCR_LONG(i,:) ./ max(DESCR_LONG(i,:));
+end
+
+
+[cidx, ctrs] = kmeans(DESCR_LONG_NORM, NUM_CLUSTER, 'Distance', 'sqeuclidean', 'Replicates', 10, 'Options',opts);
 
 clust_ids = zeros(size(a));
+
+
+%%
 
 index = 0;
 
 tic;
 
 
-for t=20:108
-    
-    [II, JJ] = find(a(:,:,t) < 1);
-    
-    if(t ~= 20 && t ~= 108)
-        
-%         [II, JJ] = find(a(:,:,t) < 1);
 
-        ZZ = [II JJ];
-
-        % size(ZZ)
-
-        Zref = ZZ(ZZ(:,1) == max(ZZ(:,1)) | ZZ(:,1) == min (ZZ(:,1)) | ...
-                  ZZ(:,2) == max(ZZ(:,2)) | ZZ(:,2) == min (ZZ(:,2)),:);
-
-        % size(Zref)
-
-        % Zref(1,:)
-
-        II = Zref(:,1);
-        JJ = Zref(:,2);
-
-    end
-    
-    
-    for i=1:numel(II)
-        index = index + 1;
-        clust_ids(II(i), JJ(i), t+start_ind-1) = cidx(index);
-    end
-    
-end
+% for t=20:108
+%
+%     [II, JJ] = find(a(:,:,t) < 1);
+%
+%     if(t ~= 20 && t ~= 108)
+%
+% %         [II, JJ] = find(a(:,:,t) < 1);
+%
+%         ZZ = [II JJ];
+%
+%         % size(ZZ)
+%
+%         Zref = ZZ(ZZ(:,1) == max(ZZ(:,1)) | ZZ(:,1) == min (ZZ(:,1)) | ...
+%                   ZZ(:,2) == max(ZZ(:,2)) | ZZ(:,2) == min (ZZ(:,2)),:);
+%
+%         % size(Zref)
+%
+%         % Zref(1,:)
+%
+%         II = Zref(:,1);
+%         JJ = Zref(:,2);
+%
+%     end
+%
+%
+%     for i=1:numel(II)
+%
+% %         plot3(JJ(i), II(i),(t+start_ind-1)*ones(size(IIw)), 'Color', cluster_map(class_ids(II(i), JJ(i), t+start_ind-1),:), 'MarkerSize', 1, 'LineWidth', 2);
+%
+%         index = index + 1;
+%         clust_ids(II(i), JJ(i), t+start_ind-1) = cidx(index);
+%     end
+%
+% end
 
 toc;
 
@@ -729,7 +830,7 @@ clf;
 
 % displays the structure
 
-if(true)
+if(false)
     [faces,verts, C] = isosurface(a > 0, 0, a);
     p = patch('Faces', faces, 'Vertices', verts);
     
@@ -761,20 +862,27 @@ lighting phong
 % sets the main view of the structure
 view([az1 el1]);
 
-set(gcf, 'Position', [934 208 961 763]);
+% set(gcf, 'Position', [934 208 961 763]);
+set(gcf, 'Position', [1343 509 521 416]);
+
 view([az1 el1]);
 
 hold on;
 
-colors = ['bo';
-    'go';
-    'ro';
-    'yo' ];
+% colors = ['bo';
+%     'go';
+%     'ro';
+%     'yo' ];
 
 for t=20:108
-        
-    for c=1:NUM_CLUSTER
-        [IIw, JJw] = find(clust_ids(:,:,t) == c);
+    
+    %     for c=1:NUM_CLUSTER
+    %         [IIw, JJw] = find(clust_ids(:,:,t) == c);
+    %         plot3(JJw, IIw,(t+start_ind-1)*ones(size(IIw)), 'Color', cluster_map(c,:), 'MarkerSize', 1, 'LineWidth', 2);
+    %     end
+    
+    for c=1:4
+        [IIw, JJw] = find(class_ids(:,:,t) == c);
         plot3(JJw, IIw,(t+start_ind-1)*ones(size(IIw)), 'Color', cluster_map(c,:), 'MarkerSize', 1, 'LineWidth', 2);
     end
     
@@ -825,13 +933,159 @@ view([az1 el1]);
 set(gcf, 'Position', [934 208 961 763]);
 view([az1 el1]);
 
+
+% hold on;
+% 
+% for t=20:108
+%     
+%     %         [II, JJ] = find(class_ids(:,:,t) == 1); % surfaces
+%     [II, JJ] = find(class_ids(:,:,t) == 2 | class_ids(:,:,t) == 3); %edges
+%     %     [II, JJ] = find(class_ids(:,:,t) == 4); % corners
+%     plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'ro', 'MarkerSize', 2, 'LineWidth', 3);
+%     
+% end
+% 
+% hold off;
+
+%%
+
 hold on;
 
 for t=20:108
     
-    [II, JJ] = find(class_ids(:,:,t) == 3);
-    plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'ro', 'MarkerSize', 1, 'LineWidth', 2);
+    [II, JJ] = find(class_ids(:,:,t) == 1); % surfaces
+    plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'bo', 'MarkerSize', 2, 'LineWidth', 3);
+    
+end
+
+for t=20:108
+    
+    [II, JJ] = find(class_ids(:,:,t) == 2 | class_ids(:,:,t) == 3); %edges
+    plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'ro', 'MarkerSize', 2, 'LineWidth', 3);
+    
+end
+
+
+for t=20:108
+    
+    [II, JJ] = find(class_ids(:,:,t) == 4); % corners
+    plot3(JJ, II,(t+start_ind-1)*ones(size(II)), 'go', 'MarkerSize', 2, 'LineWidth', 3);
     
 end
 
 hold off;
+
+
+
+%%
+
+new_coords = [COORDINATES(1:3, :);
+    COORDINATES(8:11,:);
+    104 64 40;
+    85 64 19;
+    85 84 40;
+    (129-80+47) 64 80;
+    85 84 65;
+    64 64 108;
+    (129-90+34) 84 90];
+
+
+
+figure(fH);
+clf;
+
+% TARGET_SCALE = 2;
+
+% displays the structure
+
+if(true)
+    [faces,verts, C] = isosurface(a > 0, 0, a);
+    p = patch('Faces', faces, 'Vertices', verts);
+    
+    p.FaceColor = [0 0.85 0.55];
+    p.EdgeColor = 'none';
+    
+    set(p, 'Faces', faces, 'Vertices', verts);
+    
+    colormap([0 0.85 0.55])
+end
+
+ratio = 1.5;
+
+[x, y, z] = ellipsoid(0,0,0,ratio*3,ratio*3.25,ratio*3.25,30);
+sphere_color = ones(31);
+sphere_color2 = ones(31)*2;
+
+size(x);
+size(sphere_color);
+
+hold on
+
+for i=1:size(new_coords,1)
+    
+    if(i < 8)
+        %     if(~permuted)
+        surf(x+new_coords(i,2),y+new_coords(i,1),z+new_coords(i,3), ...
+            sphere_color, ...
+            'FaceColor',[0.34 1 0.34],...
+            'EdgeColor','none',...
+            'FaceLighting','gouraud');
+    else
+        surf(x+new_coords(i,2),y+new_coords(i,1),z+new_coords(i,3), ...
+            sphere_color2, ...
+            'FaceColor',[0 0.2 1],...
+            'EdgeColor','none',...
+            'FaceLighting','gouraud');
+        
+    end
+    %     else
+    %         surf(x+new_coords(i,2),y+new_coords(i,3),z+new_coords(i,1), ...
+    %             sphere_color, ...
+    %             'FaceColor','interp',...
+    %             'EdgeColor','none',...
+    %             'FaceLighting','gouraud');
+    %
+    %     end
+end
+
+
+
+colormap([0 0.85 0.55;0 0.2 1; 0.3 1 0.3])
+
+% isosurface(a > 0);
+axis([0 128 0 128 0 128]);
+xlabel('y','FontSize',24,'FontWeight','bold');
+ylabel('x','FontSize',24,'FontWeight','bold');
+zlabel('time','FontSize',24,'FontWeight','bold');
+grid on;
+set(gca,'xticklabel',[])
+set(gca,'yticklabel',[])
+set(gca,'zticklabel',[])
+
+
+% set size to take a screenshot
+set(fH, 'Position', [148 210 961 764]);
+
+view([154.5000 10.8000]);
+camlight
+lighting phong
+
+% sets the main view of the structure
+view([az1 el1]);
+
+set(gcf, 'Position', [934 208 961 763]);
+% set(gcf, 'Position', [1343 509 521 416]);
+
+view([az1 el1]);
+
+hold on;
+plot3( [84 84], [65 65], [23 60], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+plot3( [84 84], [104 104], [23 60], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+plot3( [45 45], [104 104], [23 60], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+% plot3( [45 45], [65 65], [23 60], 'LineWidth', 8, 'Color', [1 0.2 0.3]);
+plot3( [84 84], [63 46], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+plot3( [84 84], [102 85], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+plot3( [45 45], [102 85], [70 104], 'LineWidth', 12, 'Color', [1 0.2 0.3]);
+hold off;
+
+

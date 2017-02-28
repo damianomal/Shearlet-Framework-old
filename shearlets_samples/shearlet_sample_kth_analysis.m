@@ -1,7 +1,7 @@
 
 
 close all;
-
+clear all;
 % VIDW = load_video_to_mat('person01_walking_d1_uncomp.avi',160, 1,100); %parametri 1 e 7
 % BG = VIDW(:,:,3);
 
@@ -135,7 +135,7 @@ coords_show = [97 76 54];
 
 % secondo pugno
 % coords_show = [70 20 13];
-% 
+%
 % % seconda ascella
 % coords_show = [90 27 23];
 
@@ -227,10 +227,10 @@ view([-40.3 25.2]);
 
 %% descrittore medio dei 4 punti sugli edge
 
-surface_coords = [91 91 55;
-                  91 91 35;
-                  91 91 25;
-                  91 91 75];
+edges_coords = [91 91 55;
+    91 91 35;
+    91 91 25;
+    91 91 75];
 
 
 % edges_coord = [85 84 40; (129-80+47) 64 80];
@@ -238,12 +238,12 @@ surface_coords = [91 91 55;
 
 edges_descr = zeros(121,1);
 
-for i=1:size(surface_coords,1)
-    edges_descr = edges_descr + shearlet_descriptor_for_point(COEFFS, surface_coords(i,1), ...
-        surface_coords(i,2), surface_coords(i,3)-start_ind+1, 2, idxs);
+for i=1:size(edges_coords,1)
+    edges_descr = edges_descr + shearlet_descriptor_for_point(COEFFS, edges_coords(i,1), ...
+        edges_coords(i,2), edges_coords(i,3)-start_ind+1, 2, idxs);
 end
 
-edges_descr = edges_descr ./ size(surface_coords,1);
+edges_descr = edges_descr ./ size(edges_coords,1);
 shearlet_show_descriptor(edges_descr);
 
 set(gcf, 'Position', [934 208 961 763]);
@@ -253,12 +253,12 @@ figure(fH);
 clf;
 
 % comparison_3d_visualization_from_points(a < 255, edges_coord, false);
-% 
+%
 % axis([0 128 0 128 0 128]);
 % xlabel('y','FontSize',24,'FontWeight','bold');
 % ylabel('x','FontSize',24,'FontWeight','bold');
 % zlabel('time','FontSize',24,'FontWeight','bold');
-% 
+%
 % view([az1 el1]);
 
 
@@ -329,24 +329,24 @@ hold off;
 
 %% descrittore medio di 4 punti sui corner
 
-surface_coords = [74 21 15;
-                  72 21 40;
-                  74 21 64;
-                  75 21 85];
+corner_coords = [74 21 15;
+    72 21 40;
+    74 21 64;
+    75 21 85];
 
 
 % edges_coord = [85 84 40; (129-80+47) 64 80];
 
 
-edges_descr = zeros(121,1);
+corner_descr = zeros(121,1);
 
-for i=1:size(surface_coords,1)
-    edges_descr = edges_descr + shearlet_descriptor_for_point(COEFFS, surface_coords(i,1), ...
-        surface_coords(i,2), surface_coords(i,3)-start_ind+1, 2, idxs);
+for i=1:size(corner_coords,1)
+    corner_descr = corner_descr + shearlet_descriptor_for_point(COEFFS, corner_coords(i,1), ...
+        corner_coords(i,2), corner_coords(i,3)-start_ind+1, 2, idxs);
 end
 
-edges_descr = edges_descr ./ size(surface_coords,1);
-shearlet_show_descriptor(edges_descr);
+corner_descr = corner_descr ./ size(corner_coords,1);
+shearlet_show_descriptor(corner_descr);
 
 set(gcf, 'Position', [934 208 961 763]);
 view([-40.3 25.2]);
@@ -355,12 +355,12 @@ figure(fH);
 clf;
 
 % comparison_3d_visualization_from_points(a < 255, edges_coord, false);
-% 
+%
 % axis([0 128 0 128 0 128]);
 % xlabel('y','FontSize',24,'FontWeight','bold');
 % ylabel('x','FontSize',24,'FontWeight','bold');
 % zlabel('time','FontSize',24,'FontWeight','bold');
-% 
+%
 % view([az1 el1]);
 
 
@@ -411,8 +411,8 @@ sphere_color = ones(31);
 
 hold on
 
-for i=1:size(surface_coords,1)
-    surf(x+surface_coords(i,2),y+surface_coords(i,1),z+surface_coords(i,3), ...
+for i=1:size(corner_coords,1)
+    surf(x+corner_coords(i,2),y+corner_coords(i,1),z+corner_coords(i,3), ...
         sphere_color, ...
         'FaceColor','interp',...
         'EdgeColor','none',...
@@ -425,23 +425,23 @@ colormap([0 0.85 0.55;0 0.2 1])
 %% descrittore medio di 4 punti sulla superficie
 
 surface_coords = [97 72 14;
-                  97 69 33;
-                  97 74 58;
-                  97 68 74];
+    97 69 33;
+    97 74 58;
+    97 68 74];
 
 
 % edges_coord = [85 84 40; (129-80+47) 64 80];
 
 
-edges_descr = zeros(121,1);
+surface_descr = zeros(121,1);
 
 for i=1:size(surface_coords,1)
-    edges_descr = edges_descr + shearlet_descriptor_for_point(COEFFS, surface_coords(i,1), ...
+    surface_descr = surface_descr + shearlet_descriptor_for_point(COEFFS, surface_coords(i,1), ...
         surface_coords(i,2), surface_coords(i,3)-start_ind+1, 2, idxs);
 end
 
-edges_descr = edges_descr ./ size(surface_coords,1);
-shearlet_show_descriptor(edges_descr);
+surface_descr = surface_descr ./ size(surface_coords,1);
+shearlet_show_descriptor(surface_descr);
 
 set(gcf, 'Position', [934 208 961 763]);
 view([-40.3 25.2]);
@@ -450,12 +450,12 @@ figure(fH);
 clf;
 
 % comparison_3d_visualization_from_points(a < 255, edges_coord, false);
-% 
+%
 % axis([0 128 0 128 0 128]);
 % xlabel('y','FontSize',24,'FontWeight','bold');
 % ylabel('x','FontSize',24,'FontWeight','bold');
 % zlabel('time','FontSize',24,'FontWeight','bold');
-% 
+%
 % view([az1 el1]);
 
 
@@ -570,5 +570,86 @@ camlight;
 view([az1 el1]);
 
 
+%%
+
+figure;
+
+imshow(VID(:,:,37), []);
+
+TARGET_SCALE = 2;
+t = 37;
+
+temp_matrix = zeros(size(VID,1), size(VID,2), 121);
+
+tic;
+
+for xx = 2:size(VID,1)-1
+    for yy = 2:size(VID,2)-1
+        
+        DESCR = shearlet_descriptor_for_point(COEFFS, xx, yy, t, TARGET_SCALE, idxs);
+        temp_matrix(xx,yy,:) = DESCR;
+        
+    end
+end
+toc;
+
+%%
+
+dist_matrix = zeros(size(VID,1), size(VID,2));
+
+tic;
+
+% surface_descr_n = surface_descr ./ max(surface_descr(:));
+% edges_descr_n = edges_descr ./ max(edges_descr(:));
+% corner_descr_n = corner_descr ./ max(corner_descr(:));
 
 
+for xx = 2:size(VID,1)-1
+    for yy = 2:size(VID,2)-1
+        
+        DESCR = squeeze(temp_matrix(xx,yy,:));
+        
+        %         DESCR = DESCR ./ max(DESCR(:));
+        %         res = [norm(DESCR - surface_descr_n) norm(DESCR - edges_descr_n) norm(DESCR - corner_descr_n)];
+        
+        res = [norm(DESCR - surface_descr) norm(DESCR - edges_descr) norm(DESCR - corner_descr)];
+        [~, ind] = min(res);
+        
+        dist_matrix(xx,yy) = ind;
+        
+    end
+end
+
+ii = VIS_FG_MASKS(:,:,t)';
+
+dist_matrix(ii == 0) = 0;
+
+toc;
+
+
+figure;
+
+for ind=1:3
+    
+    subplot(1,3,ind);
+    red_overlay = dist_matrix == ind;
+    green_overlay = dist_matrix == ind;
+    blue_overlay = dist_matrix == ind;
+    red = VID(:,:,t) ./ 255;
+    green = VID(:,:,t) ./ 255;
+    blue = VID(:,:,t) ./ 255;
+    red(red_overlay) = 1;
+    green(green_overlay) = 0;
+    blue(blue_overlay) = 0;
+    
+    outimg = cat(3, red, green, blue);
+    
+    
+    %     outimg = cat(3, VID(:,:,37)./255, VID(:,:,37)./255, VID(:,:,37)./255);
+    %     %     outimg(dist_matrix == ind) = [1 0 0];
+    %     outimg(red_overlay) = [1 0 0];
+    
+    
+    imshow(outimg);
+    
+end

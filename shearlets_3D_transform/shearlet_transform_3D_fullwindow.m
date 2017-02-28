@@ -1,4 +1,4 @@
-function [ big_coeffs, shearletIdxs, start_index] = shearlet_transform_3D( VID, central_frame, neigh_window, shearLevels, scales, useGPU )
+function [ big_coeffs, shearletIdxs, start_index] = shearlet_transform_3D_fullwindow( VID, central_frame, neigh_window, shearLevels, scales, useGPU )
 %SHEARLET_TRANSFORM_3D Calculates the 3D Shearlet Transform for the passed
 %video sequence
 %

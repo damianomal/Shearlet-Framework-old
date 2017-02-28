@@ -5,8 +5,19 @@
 
 clear VID
 
-video_filename = 'line_l.mp4';
-VID = load_video_to_mat(video_filename,160,400,500);
+% video_filename = 'line_l.mp4';
+% VID = load_video_to_mat(video_filename,160,400,500);
+
+% video_filename = 'person04_boxing_d1_uncomp.avi';
+% VID = load_video_to_mat(video_filename,160,1,100);
+
+video_filename = 'Sample0001_color.mp4';
+VID = load_video_to_mat(video_filename,160,1238,1338);
+
+% calculate the 3D Shearlet Transform
+
+clear COEFFS idxs 
+
 
 % calculate the 3D Shearlet Transform
 
@@ -20,14 +31,17 @@ close all;
 % calculate the representation for a specific frame (frame number 37 of the
 % sequence represented in the VID structure)
 
-TARGET_FRAME = 37;
+TARGET_FRAME = 46;
 SCALE_USED = 3;
 
 REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true, true);
 
 % clusters the representations for this particular frame in N clusters
 
-CLUSTER_NUMBER = 10;
+
+%%
+
+CLUSTER_NUMBER = 14;
 [CL_IND, CTRS] = shearlet_cluster_coefficients(REPRESENTATION, CLUSTER_NUMBER, [size(COEFFS,1) size(COEFFS,2)]);
 
 % sorts the clusters with respect to their size, and also rea
@@ -38,10 +52,19 @@ CLUSTER_NUMBER = 10;
 
 shearlet_cluster_image(SORTED_CL_IMAGE, CLUSTER_NUMBER, true, false);
 
+
+%%
+
 % shows a single cluster as an overlay on the original frame
 
-CLUSTER_TO_SHOW = 10;
-shearlet_overlay_cluster(VID(:,:,TARGET_FRAME), SORTED_CL_IMAGE, CLUSTER_TO_SHOW, true, true);
+CLUSTER_TO_SHOW = 14;
+[~, mask] = shearlet_overlay_cluster(VID(:,:,TARGET_FRAME), SORTED_CL_IMAGE, CLUSTER_TO_SHOW, true, true);
+% shearlet_show_avg_descriptor(COEFFS, 46, 3, idxs, SORTED_CL_IMAGE == CLUSTER_TO_SHOW);
+
+
+%%
+
+shearlet_show_avg_descriptor(COEFFS, 46, 3, idxs, SORTED_CL_IMAGE == CLUSTER_TO_SHOW);
 
 %% CLUSTERING A NEW SEQUENCE STARTING FROM THE CENTROIDS PREVIOUSLY CALCULATED
 
