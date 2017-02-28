@@ -1,4 +1,4 @@
-function cl_video_idx = shearlet_video_clustering_full( VID, centroids, prefix, save_to_mat, end_offset)
+function clusters_idx = shearlet_video_clustering_full( VID, centroids, prefix, save_to_mat, end_offset)
 %SHEARLET_VIDEO_CLUSTERING Clusters the descriptors passed w.r.t. the
 %chosen centroids
 %
@@ -29,7 +29,7 @@ if(nargin < 5 || isempty(save_to_mat))
 end
 
 % initialize the structures needed for this operation
-cl_video_idx = zeros(size(VID,1), size(VID,2), size(VID,3));
+clusters_idx = zeros(size(VID,1), size(VID,2), size(VID,3));
 vidObjs = cell(1,size(centroids,1));
 
 %
@@ -63,8 +63,6 @@ while run
     %
     clear COEFFS idxs;
     [COEFFS,idxs] = shearlet_transform_3D(VID,ind,91,[0 1 1], 2, 1);
-    %shearlet_transform_3D_fullwindow
-    
     
     %
     for t=t_start:t_end-end_offset
@@ -87,14 +85,12 @@ while run
         CL_IND = shearlet_cluster_by_seeds(DESCR_MAT, COEFFS, centroids);
         CL_SORT = shearlet_cluster_image(CL_IND, size(centroids,1), false, false);
         
-        cl_video_idx(:,:,t+start_cut-1) = CL_SORT;
-%         cl_video_max(:,:,t+start_cut-1) = reshape(DESCR_MAT(:,1), 160, 120)';
+        clusters_idx(:,:,t+start_cut-1) = CL_SORT;
+
         %
         for c=1:size(centroids,1)
-            CL_OVERL = shearlet_overlay_cluster(VID(:,:,t+start_cut-1), CL_SORT, c, false, false);
-            
+            CL_OVERL = shearlet_overlay_cluster(VID(:,:,t+start_cut-1), CL_SORT, c, false, false);            
             writeVideo(vidObjs{c}, CL_OVERL ./ 255);
-%             imwrite(CL_OVERL, ['prova_' int2str(c) '.png']);
         end
         
         %         if(t == 91)
@@ -133,8 +129,7 @@ end
 
 %
 if(save_to_mat)
-    SORT_CTRS = centroids;
-    save([prefix '_cl_video_and_vid.mat'], 'VID', 'cl_video_idx', 'SORT_CTRS');
+    save([prefix '_clusters_and_vid.mat'], 'VID', 'clusters_idx', 'centroids');
 end
 
 % 
