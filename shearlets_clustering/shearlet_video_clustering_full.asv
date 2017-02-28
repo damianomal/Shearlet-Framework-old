@@ -134,6 +134,7 @@ end
 %
 if(save_to_mat)
     SORT_CTRS = centroids;
+    VID = VID;
     save([prefix '_cl_video_and_vid.mat'], 'VID', 'cl_video_idx', 'SORT_CTRS');
 end
 
