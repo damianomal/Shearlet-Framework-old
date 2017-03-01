@@ -7,7 +7,6 @@ shearlet_plot_clusters_over_time(cl_video_idx, 2, 99);
 %% RIPRODUZIONE VIDEO E MASSIMI/MINIMI
 
 % A = rand(100,100,100);
-% Engine
 close all;
 
 CURMAT = cl_video_max(:,:,2:99);
