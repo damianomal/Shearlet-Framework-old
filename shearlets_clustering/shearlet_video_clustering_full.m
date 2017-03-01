@@ -24,7 +24,7 @@ if(nargin < 4 || isempty(save_to_mat))
     save_to_mat = true;
 end
 
-if(nargin < 5 || isempty(save_to_mat))
+if(nargin < 5 || isempty(end_offset))
     end_offset = 3;
 end
 
