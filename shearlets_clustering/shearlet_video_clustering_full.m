@@ -62,7 +62,7 @@ while run
     
     %
     clear COEFFS idxs;
-    [COEFFS,idxs] = shearlet_transform_3D(VID,ind,91,[0 1 1], 2, 1);
+    [COEFFS,idxs] = shearlet_transform_3D(VID,ind,91,[0 1 1], 3, 1);
     
     %
     for t=t_start:t_end-end_offset

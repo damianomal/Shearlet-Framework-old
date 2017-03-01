@@ -48,11 +48,11 @@ if(nargin < 4)
 end
 
 % parameters controls
-if(max_size < 16)
-        ME = MException('load_video_to_mat:tiny_max_size_for_frames', ...
-        'The max_size parameters must be greater than 16.');
-    throw(ME);
-end
+% if(max_size < 16)
+%         ME = MException('load_video_to_mat:tiny_max_size_for_frames', ...
+%         'The max_size parameters must be greater than 16.');
+%     throw(ME);
+% end
 
 if(start_frame < 1 || start_frame > floor(vidObj.Duration * vidObj.FrameRate))
     ME = MException('load_video_to_mat:negative_frame_index', ...
