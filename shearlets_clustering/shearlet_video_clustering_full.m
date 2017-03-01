@@ -3,7 +3,7 @@ function clusters_idx = shearlet_video_clustering_full( VID, centroids, prefix, 
 %chosen centroids
 %
 % Usage:
-%   [idx, maxs] = shearlet_video_clustering_full(X, centroids, prefix)
+%   clusters_idx = shearlet_video_clustering_full(X, centroids, prefix)
 %           Clusters the content of the video sequence represented in X by
 %           using the centroids passed to classify each 2D+T point.
 %
@@ -11,20 +11,21 @@ function clusters_idx = shearlet_video_clustering_full( VID, centroids, prefix, 
 %   X:
 %   centroids:
 %   prefix:
+%   save_to_mat: 
+%   end_offset: 
 %
 % Output:
-%   idx:
-%   max:
+%   clusters_idx:
 %
 %   See also ...
-
+%
 % 2016 Damiano Malafronte.
 
 if(nargin < 4 || isempty(save_to_mat))
     save_to_mat = true;
 end
 
-if(nargin < 5 || isempty(save_to_mat))
+if(nargin < 5 || isempty(end_offset))
     end_offset = 3;
 end
 
@@ -42,7 +43,7 @@ for c=1:size(centroids,1)
 end
 
 %
-t_start = 1;
+t_start = 2;
 t_end= 91;
 
 ind = 46;
@@ -50,6 +51,7 @@ ind = 46;
 T_LIMIT = 0;
 
 run = true;
+last_iteration = false;
 
 %
 while run
@@ -74,7 +76,8 @@ while run
         %
         if(~(ind == (size(VID,3)- 45)) && t + start_cut - 1 > size(VID,3) - 45)
             fprintf('CUT\n');
-            end_offset = 0;
+            end_offset = 1;
+            last_iteration = true;
             break;
         end
         
@@ -106,7 +109,11 @@ while run
     %
     %     end
     
-    t_start = 46+1-end_offset;
+    if(last_iteration)
+        t_start = 47;
+    else
+        t_start = 47-end_offset;
+    end
     
     %
     if(ind == (size(VID,3)- 45))
