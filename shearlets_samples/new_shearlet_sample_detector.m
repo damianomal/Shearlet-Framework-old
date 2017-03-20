@@ -4,11 +4,11 @@
 % load the video sequence
 
 clear VID 
-video_filename = 'person04_boxing_d1_uncomp.avi';
-[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
+% video_filename = '7-0006.mp4';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
 
-% video_filename = 'alessia_rectangle.mp4';
-% [VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700);
+video_filename = 'alessia_rectangle.mp4';
+[VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700);
 
 % calculate the 3D Shearlet Transform
 
@@ -19,7 +19,7 @@ clear COEFFS idxs
 
 % parameters for the detection process
 LOWER_THRESHOLD = 0.2;
-SPT_WINDOW = 9;
+SPT_WINDOW = 7;
 SCALES = [2];
 CONE_WEIGHTS = [1 1 1];
 
@@ -31,8 +31,6 @@ output_name = shearlet_create_video_outname( video_filename, SCALES, LOWER_THRES
 
 [COORDINATES, CHANGE_MAP] = shearlet_detect_points( VID(:,:,1:91), COEFFS, SCALES, [], LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS, false, output_name);
 
-
-
 %%
 
 comparison_local_maxima_in_frame(VID(:,:,1:91), COLOR_VID(:,:,:,1:91), 19, CHANGE_MAP, LOWER_THRESHOLD, SPT_WINDOW, 3, colormap(jet(256)));  % buono boxing? centrato in 46, SCALA 2
@@ -41,11 +39,9 @@ comparison_local_maxima_in_frame(VID(:,:,1:91), COLOR_VID(:,:,:,1:91), 19, CHANG
 
 [COUNTS] = comparison_points_over_time(VID(:,:,1:91), COORDINATES);
 
-
 %%
 
 comparison_heatmap_from_points(VID, floor(COORDINATES));
-
 
 %%
 
