@@ -13,7 +13,7 @@ end
 %%%%% Displaying the temporal-spatial representation in the second subfigure.
 ax2= subplot(1,3,2);
 g1 = get(ax2,'Position');
-[ ~, ~, cl_rgb]= shearlet_cluster_image(output_cell{currentframe,1}, max(max(output_cell{currentframe,1})), false, false);
+[ ~, ~, cl_rgb]= shearlet_cluster_image(output_cell{currentframe,1}, CLUSTER_NUMBER, false, false);
 imshow((cl_rgb));
 hold on
 %Draw circles around interest points.
@@ -37,10 +37,10 @@ for i=1: length(output_cell)
         clustered_vals_temp = [clustered_vals_temp; output_cell{i,1}(coordinates(j,1),coordinates(j,2))];
     end
 end
-[hist_vals,~] = hist(clustered_vals_temp,1:10);
+[hist_vals,~] = hist(clustered_vals_temp,1:CLUSTER_NUMBER);
 
 color_map = shearlet_init_cluster_map;
-for i = 1:numel(hist_vals)
+for i = 1:CLUSTER_NUMBER
     h=bar(i,hist_vals(i));
     set(h,'FaceColor', color_map(i, :));
 end

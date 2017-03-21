@@ -2,8 +2,9 @@
 
 %% PLOT EVOLUZIONE PRESENZA CLUSTER IN OGNI FRAME
 
-shearlet_plot_clusters_over_time(cl_video_idx, 2, 99);
+shearlet_plot_clusters_over_time(clusters_idx, 2, 99);
 
+% shearlet_plot_clusters_over_time(cl_video_idx, 2, 99);
 %% RIPRODUZIONE VIDEO E MASSIMI/MINIMI
 
 % A = rand(100,100,100);

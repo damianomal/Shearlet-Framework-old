@@ -15,12 +15,18 @@ clear all
 % filename = 'frontal_from_webcam_ellipse_m';
 % filename = 'planar_from_robot_10-ellipse_a';
 % filename = 'planar_from_canon_10-ellipse_a';
-
-
-extension = '_sc_2_th_0_2_win_11.mat';
-
-load([filename '.mat']);
-load([filename extension]);
+filenames = {'robot_1-reaching_a', 'robot_2-transporting_a', 'robot_5-mixing_a', ...
+             'robot_8-crank_a', 'canon_1-reaching_a', 'canon_2-transporting_a', ...
+             'canon_5-mixing_a', 'canon_8-crank_a'};
+% 
+% extension = '_sc_2_th_0_2_win_11.mat';
+extension = '_sc_2_th_0_5_win_5.mat';
+i=1;
+% load([filename '.mat']);
+load([filenames{i} extension]);
+VID = load_video_to_mat([filenames{i} '.avi'], 160, 100, 200);
+CLUSTER_NUMBER = 8;
+    
 disp(['The number of interest points: ' num2str(length(output_cell))])
 s = size(output_cell);
 figure(1)

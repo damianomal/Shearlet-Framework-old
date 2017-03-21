@@ -35,7 +35,7 @@ vidObjs = cell(1,size(centroids,1));
 
 %
 for c=1:size(centroids,1)
-    vidObjs{c} = VideoWriter([prefix int2str(c) '.avi']);
+    vidObjs{c} = VideoWriter(['Dataset\clustering_files\' prefix int2str(c) '.avi']);
     vidObjs{c}.Quality = 100;
     vidObjs{c}.FrameRate = 25;
     
@@ -136,7 +136,7 @@ end
 
 %
 if(save_to_mat)
-    save([prefix '_clusters_and_vid.mat'], 'VID', 'clusters_idx', 'centroids');
+    save(['Dataset\clustering_files\' prefix '_cluster_and_vid.mat'], 'VID', 'clusters_idx', 'centroids');
 end
 
 % 

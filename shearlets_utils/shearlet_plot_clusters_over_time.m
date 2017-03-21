@@ -19,7 +19,7 @@ BASELINE = 5;
 
 mat5 = clusters_idx(:,:, t_start:t_end);
 
-fH = figure('Position', [680 277 951 701]);
+% fH = figure('Position', [680 277 951 701]);
 
 hold all;
 
@@ -56,7 +56,7 @@ for i=START_VAL:END_VAL
 end
 
 %
-lgd = legend(h, names);
+% lgd = legend(h, names);
 
 %
 lgd.FontSize = 14;
