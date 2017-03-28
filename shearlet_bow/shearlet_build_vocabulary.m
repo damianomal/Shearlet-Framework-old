@@ -62,7 +62,7 @@ for n=video_set
 end
 
 %
-if(words_num <= cur_cluster-1)
+if(words_num >= cur_cluster-1)
     DICTIONARY = ALL_CLUSTERS(1:cur_cluster-1,:);
 else
     

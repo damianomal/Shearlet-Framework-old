@@ -35,66 +35,6 @@ weights(:,3) = 0;
 
 weights
 
-%%
-
-close all;
-
-scale = 2;
-
-coeffs_mat = zeros(1, size(COEFFS,1)*size(COEFFS,2));
-
-t = 55;
-
-c = zeros(5,5,3);
-
-th = 0.1;
-
-% for t=2:size(COEFFS,3)-1
-for xx=2:size(COEFFS,1)-1
-    if(xx > 2)
-        fprintf(repmat('\b',1, numel(msg)));
-    end
-    
-    msg = ['---- Processing row ' int2str(xx) '/' int2str(size(COEFFS,1)-1) ' '];
-    fprintf(msg);
-    
-    row_index = (xx-1)*size(COEFFS,2);
-    
-    for yy=2:size(COEFFS,2)-1
-        
-        [c(:,:,1), c(:,:,2), c(:,:,3)] = shearlet_calculate_grids(COEFFS, xx, yy, t, scale, idxs, 1);
-        
-        [mx, ind] = max([max(reshape(c(:,:,1).',[],1))
-            max(reshape(c(:,:,2).',[],1))
-            max(reshape(c(:,:,3).',[],1))]);
-        
-        [ii, jj] = ind2sub(size(c(:,:,ind)), find(c(:,:,ind) == max(reshape(c(:,:,ind).',[],1))));
-        
-        if(mx > th)
-            coeffs_mat(row_index+yy) = mx*weights(ii, jj);
-        end
-    end
-end
-
-% end
-fprintf('\n');
-
-%%
-
-CC = reshape(coeffs_mat, size(COEFFS,2), size(COEFFS,1));
-CC = CC';
-
-CCZ = CC;
-CCZ(CC < 0.02) = 0;
-
-res = shearlet_overlay_mask(VID(:,:,t), CCZ > 0, false, true);
-
-close all;
-figure;
-subplot(1,3,1); imshow(CC, []);
-subplot(1,3,2); imshow(CCZ, []); colormap(hot(256));
-subplot(1,3,3); imshow(res);
-
 
 %%
 
@@ -182,4 +122,66 @@ while true
     end
 end
 
+
+
+
+% %%
+% 
+% close all;
+% 
+% scale = 2;
+% 
+% coeffs_mat = zeros(1, size(COEFFS,1)*size(COEFFS,2));
+% 
+% t = 55;
+% 
+% c = zeros(5,5,3);
+% 
+% th = 0.1;
+% 
+% % for t=2:size(COEFFS,3)-1
+% for xx=2:size(COEFFS,1)-1
+%     if(xx > 2)
+%         fprintf(repmat('\b',1, numel(msg)));
+%     end
+%     
+%     msg = ['---- Processing row ' int2str(xx) '/' int2str(size(COEFFS,1)-1) ' '];
+%     fprintf(msg);
+%     
+%     row_index = (xx-1)*size(COEFFS,2);
+%     
+%     for yy=2:size(COEFFS,2)-1
+%         
+%         [c(:,:,1), c(:,:,2), c(:,:,3)] = shearlet_calculate_grids(COEFFS, xx, yy, t, scale, idxs, 1);
+%         
+%         [mx, ind] = max([max(reshape(c(:,:,1).',[],1))
+%             max(reshape(c(:,:,2).',[],1))
+%             max(reshape(c(:,:,3).',[],1))]);
+%         
+%         [ii, jj] = ind2sub(size(c(:,:,ind)), find(c(:,:,ind) == max(reshape(c(:,:,ind).',[],1))));
+%         
+%         if(mx > th)
+%             coeffs_mat(row_index+yy) = mx*weights(ii, jj);
+%         end
+%     end
+% end
+% 
+% % end
+% fprintf('\n');
+% 
+% %%
+% 
+% CC = reshape(coeffs_mat, size(COEFFS,2), size(COEFFS,1));
+% CC = CC';
+% 
+% CCZ = CC;
+% CCZ(CC < 0.02) = 0;
+% 
+% res = shearlet_overlay_mask(VID(:,:,t), CCZ > 0, false, true);
+% 
+% close all;
+% figure;
+% subplot(1,3,1); imshow(CC, []);
+% subplot(1,3,2); imshow(CCZ, []); colormap(hot(256));
+% subplot(1,3,3); imshow(res);
 

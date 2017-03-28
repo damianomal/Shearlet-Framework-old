@@ -1,7 +1,9 @@
-function [ bow_repr ] = shearlet_bow_representation( video, dictionary)
+function [ bow_repr ] = shearlet_bow_representation(video, dictionary_repr, dictionary_descr)
 %SHEARLET_BOW_REPRESENTATION Summary of this function goes here
 %   Detailed explanation goes here
 
+%
+frames_per_sequence = 4;
 
 %
 LOWER_THRESHOLD = 0.2;
@@ -41,7 +43,7 @@ for cur_frame=FRAMES
     [REPRESENTATION] = shearlet_descriptor(COEFFS, cur_frame, REPR_SCALE_USED, idxs, true, true);
     
     % clusters the representations for this particular frame in N clusters
-    
+    [CL_IND] = shearlet_cluster_by_seeds( REPRESENTATION, COEFFS, dictionary_repr);
 end
 
 
