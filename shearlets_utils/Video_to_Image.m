@@ -1,15 +1,13 @@
 % This video is to breakdown a video into its constituent frames and to
 % save the said frames into a .png files in the defines working directory.
-%
 
 workingDir = 'Dataset';
 % mkdir(workingDir);
 mkdir(workingDir,'Images');
 % cd (workingDir)
-video = VideoReader('robot_2-transporting_a_original_cropped.avi');
+video = VideoReader('robot_8-crank_a_original_cropped.avi');
 % cd ..
 ii = 1;
-
 
 while hasFrame(video)
    img = readFrame(video);

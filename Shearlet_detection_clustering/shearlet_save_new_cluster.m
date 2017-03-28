@@ -13,7 +13,7 @@ VID = load_video_to_mat(filename,160);
 
 % LOWER_THRESHOLD = 0.2;
 % SPT_WINDOW = 5;
-SCALES = [2]; %aa
+SCALES = [3]; %aa
 % CONE_WEIGHTS = [1 1 1];
 CLUSTER_NUMBER = 10;
 % 
@@ -28,4 +28,4 @@ CLUSTER_NUMBER = 10;
 
 % In case of a pre-defined frame number.
 [SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,32,SCALES,CLUSTER_NUMBER);
-save('Shearlet-Framework\Shearlet_detection_clustering\saved_cluster5','SORT_CTRS')
+save('Shearlet-Framework\Shearlet_detection_clustering\saved_cluster8','SORT_CTRS')

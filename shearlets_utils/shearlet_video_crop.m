@@ -112,10 +112,19 @@ while(hasFrame(vidObj) && count <= end_frame)
         
         % adds the frame to the resulting matrices, resized or not
         if(resize_frame)
-            result(:,:,i) = imresize(frame, ratio);
+            new_frame = imresize(frame, ratio);
+            
+            if(size(result,1) ~= size(new_frame,1) || size(result,2) ~= size(new_frame,2))
+                result = zeros(size(new_frame,1), size(new_frame,2), end_frame-start_frame+1); 
+                color_result = zeros(size(new_frame,1), size(new_frame,2), 3, end_frame-start_frame+1); 
+            end
+            
+            result(:,:,i) = new_frame;
+            color_result(:,:,:,i) = imresize(color_frame(:,:,:), ratio);
         else
             result(:,:,i) = frame;
-         end
+            color_result(:,:,:,i) = color_frame(:,:,:);
+        end
         i = i + 1;
         writeVideo(vidObj_out,frame)
         
