@@ -80,10 +80,9 @@ classdef ArgParser < handle
             res = cell2struct(obj.arg_values, obj.arg_names, 2);
             obj.processed = res;
             
-            new_obj = obj;
+%             new_obj = obj;
             
         end
-        
         
         function help(obj)
             
