@@ -3,7 +3,7 @@
 %% EDGE EXAMPLE
 
 close all;
-
+clear all;
 
 
 % 
@@ -259,12 +259,14 @@ close all;
 % clear all;
 
 % 
+clear VID
 VID = shearlets_synthetic_data('edge', [100 100 100], 255);
 
 %
 % VID = imgaussfilt3(VID, 1.5);
 
 % 
+clear COEFFS
 [COEFFS,idxs] = shearlet_transform_3D(VID,50,91,[0 1 1], 3, 1);
 
 % 
@@ -314,7 +316,7 @@ figure('Position', [680 558 560 420]);
 
 hold on;
 plot(indexes3-min(indexes3), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes3))), 'r-', 'LineWidth', 2);
-plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), 'b-', 'LineWidth', 2);
+% plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), 'b-', 'LineWidth', 2);
 % plot(indexes4-min(indexes4), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes4))), 'b-', 'LineWidth', 2);
 % plot(indexes5-min(indexes5), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes5))), 'y-', 'LineWidth', 2);
 
@@ -328,7 +330,8 @@ plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), '
 hold off;
 
 title(['SH(k) while k=(k1,k2) changes, cone ' int2str(cone) ', scale 2 and 3']);
-legend('Scale 3', 'Scale 2');
+% legend('Scale 3', 'Scale 2');
+legend('Scale 3');
 
 
 %   
@@ -336,7 +339,7 @@ figure('Position', [1257 558 560 420]);
 
 hold on;
 plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes3(mi3)))), 'r-', 'LineWidth', 2);
-plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes2(mi2)))), 'b-', 'LineWidth', 2);
+% plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes2(mi2)))), 'b-', 'LineWidth', 2);
 % plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes4(mi4)))), 'y-', 'LineWidth', 2);
 % plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes5(mi5)))), 'k-', 'LineWidth', 2);
 % plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes3(mi3)))), 'r-', 'LineWidth', 2);
@@ -347,7 +350,8 @@ plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes2(mi2)))), 'b-', 'Lin
 hold off;
 
 title(['SH(kmax, y) while y in [25, 75] changes, cone ' int2str(cone) ', scale 2 and 3']);
-legend('Scale 3', 'Scale 2', 'Scale 4', 'Scale 5');
+% legend('Scale 3', 'Scale 2', 'Scale 4', 'Scale 5');
+legend('Scale 3');
 
 
 
@@ -415,7 +419,7 @@ figure('Position', [680 558 560 420]);
 
 hold on;
 plot(indexes3-min(indexes3), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes3))), 'r-', 'LineWidth', 2);
-plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), 'b-', 'LineWidth', 2);
+% plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), 'b-', 'LineWidth', 2);
 
 % plot(indexes3-min(indexes3), abs(squeeze(sum(sum(sum(COEFFS(p(1)-1:p(1)+1, p(2)-1:p(2)+1, p(3)-1:p(3)+1, indexes3),1),2),3)))./27, 'r-', 'LineWidth', 2);
 % plot(indexes2-min(indexes2), abs(squeeze(sum(sum(sum(COEFFS(p(1)-1:p(1)+1, p(2)-1:p(2)+1, p(3)-1:p(3)+1, indexes3),1),2),3)))./27, 'b-', 'LineWidth', 2);
@@ -423,7 +427,8 @@ plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), '
 hold off;
 
 title(['SH(k) while k=(k1,k2) changes, cone ' int2str(cone) ', scale 2 and 3']);
-legend('Scale 3', 'Scale 2');
+% legend('Scale 3', 'Scale 2');
+legend('Scale 3');
 
 
 %
@@ -431,7 +436,7 @@ figure('Position', [1257 558 560 420]);
 
 hold on;
 plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes3(mi3)))), 'r-', 'LineWidth', 2);
-plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes2(mi2)))), 'b-', 'LineWidth', 2);
+% plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes2(mi2)))), 'b-', 'LineWidth', 2);
 % 
 % plot(yrange, abs(squeeze(sum(sum(COEFFS(p(1)-2:p(1)+2, yrange, p(3)-2:p(3)+2, indexes3(mi3)),1),3))), 'r-', 'LineWidth', 2);
 % plot(yrange, abs(squeeze(sum(sum(COEFFS(p(1)-2:p(1)+2, yrange, p(3)-2:p(3)+2, indexes2(mi2)),1),3))), 'b-', 'LineWidth', 2);
@@ -439,7 +444,8 @@ plot(yrange, abs(squeeze(COEFFS(p(1), yrange, p(3), indexes2(mi2)))), 'b-', 'Lin
 hold off;
 
 title(['SH(kmax, y) while y in [25, 75] changes, cone ' int2str(cone) ', scale 2 and 3']);
-legend('Scale 3', 'Scale 2');
+% legend('Scale 3', 'Scale 2');
+legend('Scale 3');
 
 
 
@@ -471,10 +477,10 @@ indexes2 = find(idxs(:,1) == cone & idxs(:,2) == scale);
 figure('Position', [101 (559-420) 560 420]);
 imshow(VID(:,:,50),[]);
 
-% hold on;
-% plot([p(1) p(1)],[xrange(1) xrange(end)],'r-', 'LineWidth', 3);
-% plot(p(1), p(2),'g.', 'MarkerSize', 30, 'LineWidth', 3);
-% hold off;
+hold on;
+plot([p(1) p(1)],[xrange(1) xrange(end)],'r-', 'LineWidth', 3);
+plot(p(1), p(2),'g.', 'MarkerSize', 30, 'LineWidth', 3);
+hold off;
 
 set(gcf, 'Position', [101 (559-420) 560 420]);
 
@@ -484,7 +490,7 @@ figure('Position', [680 (559-420) 560 420]);
 
 hold on;
 plot(indexes3-min(indexes3), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes3))), 'r-', 'LineWidth', 2);
-plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), 'b-', 'LineWidth', 2);
+% plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), 'b-', 'LineWidth', 2);
 
 % plot(indexes3-min(indexes3), abs(squeeze(sum(sum(sum(COEFFS(p(1)-1:p(1)+1, p(2)-1:p(2)+1, p(3)-1:p(3)+1, indexes3),1),2),3)))./27, 'r-', 'LineWidth', 2);
 % plot(indexes2-min(indexes2), abs(squeeze(sum(sum(sum(COEFFS(p(1)-1:p(1)+1, p(2)-1:p(2)+1, p(3)-1:p(3)+1, indexes3),1),2),3)))./27, 'b-', 'LineWidth', 2);
@@ -492,7 +498,8 @@ plot(indexes2-min(indexes2), abs(squeeze(COEFFS(p(1), p(2), p(3), indexes2))), '
 hold off;
 
 title(['SH(k) while k=(k1,k2) changes, cone ' int2str(cone) ', scale 2 and 3']);
-legend('Scale 3', 'Scale 2');
+% legend('Scale 3', 'Scale 2');
+legend('Scale 3');
 
 
 %
@@ -500,7 +507,7 @@ figure('Position', [1257 (559-420) 560 420]);
 
 hold on;
 plot(xrange, abs(squeeze(COEFFS(xrange, p(2), p(3), indexes3(mi3)))), 'r-', 'LineWidth', 2);
-plot(xrange, abs(squeeze(COEFFS(xrange, p(2), p(3), indexes2(mi2)))), 'b-', 'LineWidth', 2);
+% plot(xrange, abs(squeeze(COEFFS(xrange, p(2), p(3), indexes2(mi2)))), 'b-', 'LineWidth', 2);
 % 
 % plot(yrange, abs(squeeze(sum(sum(COEFFS(p(1)-2:p(1)+2, yrange, p(3)-2:p(3)+2, indexes3(mi3)),1),3))), 'r-', 'LineWidth', 2);
 % plot(yrange, abs(squeeze(sum(sum(COEFFS(p(1)-2:p(1)+2, yrange, p(3)-2:p(3)+2, indexes2(mi2)),1),3))), 'b-', 'LineWidth', 2);
@@ -508,7 +515,8 @@ plot(xrange, abs(squeeze(COEFFS(xrange, p(2), p(3), indexes2(mi2)))), 'b-', 'Lin
 hold off;
 
 title(['SH(kmax, x) while x in [25, 75] changes, cone ' int2str(cone) ', scale 2 and 3']);
-legend('Scale 3', 'Scale 2');
+% legend('Scale 3', 'Scale 2');
+legend('Scale 3');
 
 
 

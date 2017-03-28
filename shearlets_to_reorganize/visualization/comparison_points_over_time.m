@@ -1,10 +1,10 @@
-function [counts] = comparison_points_over_time( video, coordinates )
+function [counts] = comparison_points_over_time( video, coordinates, show)
 %COMPARISON_POINTS_OVER_TIME Shows a bar diagram representing the
 %distribution of spatio-temporal points found over time
 %
 % Usage:
 %   counts = comparison_points_over_time(video, coordinates)
-%           Shows a bar diagram representing the distribution of 
+%           Shows a bar diagram representing the distribution of
 %           spatio-temporal points (contained in the 'coordinates' object)
 %           found over time
 %
@@ -19,7 +19,10 @@ function [counts] = comparison_points_over_time( video, coordinates )
 %
 % 2016 Damiano Malafronte.
 
-figure;
+if(nargin < 3)
+    show = true;
+end
+
 counts = zeros(1,size(video,3));
 
 % for every point found, adds 1 to the correponding
@@ -28,12 +31,15 @@ for i=1:size(coordinates,1)
     counts(coordinates(i,3)) = counts(coordinates(i,3)) + 1;
 end
 
-% shows the bar diagram
-bar(counts);
-
-xlabel('frame')
-ylabel('points found')
-xlim([0 91]);
+if(show)
+    % shows the bar diagram
+    figure;
+    bar(counts);
+    
+    xlabel('frame')
+    ylabel('points found')
+    xlim([0 91]);
+end
 
 end
 

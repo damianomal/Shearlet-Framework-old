@@ -214,3 +214,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+shearlets_samples.zip
+*.avi
+gaurvi.m
+prova_parser_varargin.m

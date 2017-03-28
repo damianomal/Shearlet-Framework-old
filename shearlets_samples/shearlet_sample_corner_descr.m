@@ -11,6 +11,8 @@ clear VID
 video_filename = 'Sample0001_color.mp4';
 VID = load_video_to_mat(video_filename,160,1190,1400);
 
+%%
+
 % calculate the 3D Shearlet Transform
 
 clear COEFFS idxs 
@@ -31,13 +33,14 @@ f = figure(1);
 imshow(imm, []);
 hold on
 plot(C(:,1), C(:,2), 'r*');
+
 hold off;
 
 r = getrect;
 
-for i=1:size(C,1)-1
-   if(C(i,1) >=  r(1) && C(i,1) <=  r(1)+r(3) && ...
-           C(i,2) >=  r(2) && C(i,2) <=  r(2)+r(4))
+for i=1:size(C,1)
+%    if(C(i,1) >=  r(1) && C(i,1) <=  r(1)+r(3) && C(i,2) >=  r(2) && C(i,2) <=  r(2)+r(4))
+   if(~(C(i,1) >=  r(1) && C(i,1) <=  r(1)+r(3) && C(i,2) >=  r(2) && C(i,2) <=  r(2)+r(4)))
        C(i, :) = [-5 -5];
    end
 end
