@@ -8,21 +8,21 @@ clear VID
 % video_filename = 'line_l.mp4';
 % VID = load_video_to_mat(video_filename,160,400,500);
 
-% video_filename = 'person04_boxing_d1_uncomp.avi';
-% VID = load_video_to_mat(video_filename,160,1,100);
+video_filename = 'person04_boxing_d1_uncomp.avi';
+VID = load_video_to_mat(video_filename,160,1,100);
 
-video_filename = 'Sample0001_color.mp4';
-VID = load_video_to_mat(video_filename,160,1238,1338);
-
-% calculate the 3D Shearlet Transform
-
-clear COEFFS idxs 
-
+% video_filename = 'Sample0001_color.mp4';
+% VID = load_video_to_mat(video_filename,160,1238,1338);
 
 % calculate the 3D Shearlet Transform
 
 clear COEFFS idxs 
-[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1);
+
+
+% calculate the 3D Shearlet Transform
+
+clear COEFFS idxs 
+[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1, [2 3]);
 
 %% CLUSTERING OF A SINGLE FRAME USING THE SHEARLET-BASED REPRESENTATION DEVELOPED
 
@@ -31,8 +31,8 @@ close all;
 % calculate the representation for a specific frame (frame number 37 of the
 % sequence represented in the VID structure)
 
-TARGET_FRAME = 46;
-SCALE_USED = 3;
+TARGET_FRAME = 37;
+SCALE_USED = 2;
 
 REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true, true);
 
@@ -41,7 +41,7 @@ REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, tru
 
 %%
 
-CLUSTER_NUMBER = 14;
+CLUSTER_NUMBER = 8;
 [CL_IND, CTRS] = shearlet_cluster_coefficients(REPRESENTATION, CLUSTER_NUMBER, [size(COEFFS,1) size(COEFFS,2)]);
 
 % sorts the clusters with respect to their size, and also rea
@@ -90,6 +90,8 @@ REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, tru
 % object is the one calculated in the previous section of this MATLAB
 % script)
 
+%%
+
 CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, SORT_CTRS);
 
 % shows a colormap associated with the clusters found
@@ -98,7 +100,7 @@ shearlet_cluster_image(CL_IND, CLUSTER_NUMBER, true, false);
 
 % shows a single cluster as an overlay on the original frame
 
-CLUSTER_TO_SHOW = 5;
-shearlet_overlay_cluster(VID(:,:,TARGET_FRAME), CL_IND, CLUSTER_TO_SHOW, true, true);
+% CLUSTER_TO_SHOW = 5;
+% shearlet_overlay_cluster(VID(:,:,TARGET_FRAME), CL_IND, CLUSTER_TO_SHOW, true, true);
 
 

@@ -9,10 +9,10 @@ figure;
 for i=1:number_of_frames
     subplot(1,number_of_frames,i);
     
-    if(size(video,3) > 1)
+    if(size(video,3) == 3)
         imshow(video(:,:,:,counts_ind(i))./255);
     else
-        imshow(video(:,:,:,counts_ind(i)), []);
+        imshow(video(:,:,counts_ind(i)), []);
     end
     
     if(nargin == 4)

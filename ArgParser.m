@@ -7,6 +7,7 @@ classdef ArgParser < handle
         arg_helps
         arg_required
         arg_values
+        arg_defaults
         arg_types
         processed
     end
@@ -17,6 +18,7 @@ classdef ArgParser < handle
             obj.arg_helps = {};
             obj.arg_required = {};
             obj.arg_values = {};
+            obj.arg_defaults = {};
             obj.arg_types = {};
             obj.processed = [];
         end
@@ -35,11 +37,20 @@ classdef ArgParser < handle
                 obj.arg_helps{end+1} = help;
                 obj.arg_required{end+1} = req;
                 obj.arg_values{end+1} = def;
+                obj.arg_defaults{end+1} = def;
                 obj.arg_types{end+1} = vtype;
             else
                 ME = MException('ArgParser:addArg', ...
                     'The inserted parameter already exists.');
                 throw(ME);
+            end
+            
+        end
+        
+        function reset(obj)
+            
+            for i = 1:numel(obj.arg_values)
+                obj.arg_values{i} = obj.arg_defaults{i};
             end
             
         end

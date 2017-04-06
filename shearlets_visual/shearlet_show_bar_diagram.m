@@ -5,7 +5,7 @@ function [ output_args ] = shearlet_show_bar_diagram( values, color_map )
     figure;
     hold on
     for i = 1:numel(values)
-        h=bar(i,values(i));
+        h=bar(i,log(values(i)));
         set(h,'FaceColor', color_map(i, :));
     end
     hold off

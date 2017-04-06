@@ -7,13 +7,16 @@ clear VID
 % video_filename = '7-0006.mp4';
 % [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
 
-video_filename = 'alessia_rectangle.mp4';
-[VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700);
+video_filename = 'person04_boxing_d1_uncomp.avi';
+[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
+
+% video_filename = 'alessia_rectangle.mp4';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700);
 
 % calculate the 3D Shearlet Transform
 
 clear COEFFS idxs
-[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1);
+[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1, [2]);
 
 %%
 

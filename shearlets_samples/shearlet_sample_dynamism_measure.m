@@ -38,9 +38,6 @@ weights
 
 %%
 
-
-
-
 close all;
 
 scale = 3;
@@ -55,9 +52,10 @@ th = 0.05;
 
 res = zeros(size(COEFFS,1), size(COEFFS,2), 3, 51);
 
-END_LIM=60;
+START_IND = 40;
+END_LIM = 80;
 
-for t=10:END_LIM
+for t=START_IND:END_LIM
     
     coeffs_mat = zeros(1, size(COEFFS,1)*size(COEFFS,2));
     c = zeros(5,5,3);
@@ -97,11 +95,11 @@ for t=10:END_LIM
     CCZ = CC;
     CCZ(CC < 0.01) = 0;
     
-    res(:,:,:,t-9) = shearlet_overlay_mask(VID(:,:,t), CCZ > 0, false, true);
+    res(:,:,:,t-START_IND+1) = shearlet_overlay_mask(VID(:,:,t), CCZ > 0, false, true);
     
 end
 
-VID_CUT = VID(:,:,10:60);
+VID_CUT = VID(:,:,START_IND:END_LIM);
 
 
 %%
@@ -117,13 +115,13 @@ while true
     
     pause(0.040);
     i = i + 1;
-    if (i > 51)
+    if (i > size(VID_CUT,3))
         i = 1;
     end
 end
 
 
-
+%%
 
 % %%
 % 
