@@ -1,18 +1,8 @@
-function res = shearlet_dynamism_measure_save_for_testing(video_filename)
+function res = shearlet_dynamism_measure_save_for_testing(video_filename, scale, END_LIM)
 %%
 
 % load the video sequence
-
-% clear VID
-% video_filename = 'eating_cam0.avi'; % scala 2, frame 50, th 0.1
-[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
-
-% video_filename = 'alessia_rectangle.mp4';
-% [VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700);
-
-% video_filename = 'person01_walking_d1_uncomp.avi';
-% video_filename = 'person04_boxing_d1_uncomp.avi';
-% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
+[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,END_LIM);
 
 % calculate the 3D Shearlet Transform
 
@@ -33,29 +23,21 @@ end
 
 weights(:,3) = 0;
 
-% weights
 
 
 %%
 
-
-
-
 close all;
-
-scale = 3;
-
-% coeffs_mat = zeros(1, size(COEFFS,1)*size(COEFFS,2));
+% 
+% scale = 3;
 
 t = 55;
-
-% c = zeros(5,5,3);
 
 th = 0.05;
 
 res = zeros(size(COEFFS,1), size(COEFFS,2), 3, 51);
 
-END_LIM=90;
+% END_LIM=90;
 
 for t=10:END_LIM
     

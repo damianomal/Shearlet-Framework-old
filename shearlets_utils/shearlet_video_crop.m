@@ -1,4 +1,4 @@
-function result = shearlet_video_crop( input_video, max_size, start_frame, end_frame,outputname)
+function result = shearlet_video_crop( input_video, max_size, start_frame, end_frame, outputname, path)
 %SHEARLET_VIDEO_CLUSTERING Clusters the descriptors passed w.r.t. the
 %chosen centroids
 %
@@ -43,7 +43,12 @@ end
 if(nargin < 4)
     end_frame = floor(vidObj.Duration * vidObj.FrameRate);
 end
-
+if(nargin < 5)
+    outputname = 'default';
+end
+if(nargin < 6)
+    path = '';
+end
 % parameters controls
 % if(max_size < 16)
 %         ME = MException('load_video_to_mat:tiny_max_size_for_frames', ...
@@ -94,7 +99,7 @@ result = zeros(frame_h, frame_w,end_frame-start_frame+1);
 % initialize the structures needed for the output video.
 % vidObj_out = cell(1,size(1,1));
 % 
-vidObj_out = VideoWriter([outputname '.avi']);
+vidObj_out = VideoWriter([path outputname '.avi']);
 vidObj_out.Quality = 100;
 vidObj_out.FrameRate = 25;
 

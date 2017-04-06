@@ -12,7 +12,7 @@ filenames = {'robot_1-reaching_a', 'robot_2-transporting_a', 'robot_5-mixing_a',
 % end
 
 % To run the clustering process on all the defined videos
-for k = 8      
+for k = 5      
     load(['G:\Shearlet-Framework\Shearlet_detection_clustering\saved_cluster' num2str(k) '.mat']);
     tic
     for i=9:numel(filenames)

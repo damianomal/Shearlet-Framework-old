@@ -4,7 +4,7 @@
 % load the video sequence
 
 clear VID
-video_filename = '7-0006.mp4'; % scala 2, frame 50, th 0.1
+video_filename = 'eating_cam0.avi'; % scala 2, frame 50, th 0.1
 [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
 
 % video_filename = 'alessia_rectangle.mp4';
