@@ -2,7 +2,7 @@ function res = shearlet_dynamism_measure_save_for_testing(video_filename, scale,
 %%
 
 % load the video sequence
-[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,END_LIM);
+[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
 
 % calculate the 3D Shearlet Transform
 
