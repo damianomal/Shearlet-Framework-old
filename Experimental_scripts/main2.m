@@ -23,37 +23,37 @@
 % action_num = ceil(file_num/9);
 % camera_num = mod(file_num-1,3);
 
-% load('Database.mat')
-% file_num =1;
-% Part 1: Extracting dynamism data from videos
+load('Database.mat')
+file_num =16:18;
+Part 1: Extracting dynamism data from videos
 
-% for scale = 2%:3
-%     end_frame = 90;
-%     tic
-%     for i=file_num(2:end) %1:numel(filenames) %define the files to be used.
-%         disp(['Extracting dynamism for File number ' num2str(i) 'on scale' num2str(scale)]);
-%         filename = filenames{i};
-%         res = shearlet_dynamism_measure_save_for_testing([filename '.avi' ], scale , end_frame);
-%         save(['Dataset\Dynamism_data\Dynamism_' filenames{i} '_scale' num2str(scale)], 'res');
-%         close all
-%     end
-% end
-% toc
-% datestr(now)
-% clear all
+for scale = 2%:3
+    end_frame = 90;
+    tic
+    for i=file_num(2:end) %1:numel(filenames) %define the files to be used.
+        disp(['Extracting dynamism for File number ' num2str(i) 'on scale' num2str(scale)]);
+        filename = filenames{i};
+        res = shearlet_dynamism_measure_save_for_testing([filename '.avi' ], scale , end_frame);
+        save(['Gaurvi\Dynamism_data\Dynamism_' filenames{i} '_scale' num2str(scale)], 'res');
+        close all
+    end
+end
+toc
+disp(datestr(now))
+clear all
 %% Part 2.1: Extract/Load Cluster set
 % This section makes a new cluster set or loads a pre-saved cluster from
 % system memory.
 tic
 load('Database.mat')
-for cluster_num =[7]
-
+for cluster_num =[1 2 3 6 7] %dictionaries to be used.
+    file_num = 16:18; % Files to be executed
     if cluster_num == 1
-        load('G:\Shearlet-Framework\Shearlet_detection_clustering\centroids_sets.mat')
+        load('centroids_sets.mat')
         SORT_CTRS = KTH_12_centroids_scale2;
         scale = 2;
     else
-        load('G:\Shearlet-Framework\Shearlet_detection_clustering\eating2_centroids.mat')
+        load('eating2_centroids.mat')
         switch cluster_num
             case 2
                 SORT_CTRS = EATING2_12_centroids_scale2 ;
@@ -78,37 +78,37 @@ for cluster_num =[7]
     end
     cluster = clusters{cluster_num};
     disp(['Starting with cluster ' cluster])
-    path1 = 'Dataset\';
-    path2 = 'Dropbox\new_actions\Graphs\';
+    path1 = 'Gaurvi\';
+    path2 = 'Dropbox\new_actions\'; %%%%%% Put the dropbox folder path here!
     % Part 2.2: Clustering
     % To run the clustering process on all the defined videos
-    
-    if cluster_num == 7
-        file_num = [14:15 19:27];
+%     
+%     if cluster_num == 7
+%         file_num = 16:18;
 %     else
 %         file_num = 1:27;
-    end
+%     end
     
     for i=file_num  % files to be clustered
         disp(['Clustering file number ' num2str(i) ' called ' filenames{i} ' with cluster ' cluster]);
         datestr(now)
-        if exist(['Dataset\clustering_files\' cameras{camera_num(i)+1} '\' cluster],'dir')~=7
-            mkdir(['Dataset\clustering_files\' cameras{camera_num(i)+1} '\' cluster])
+        if exist([path1 'clustering_files\' cameras{camera_num(i)+1} '\' cluster],'dir')~=7
+            mkdir([path1 'clustering_files\' cameras{camera_num(i)+1} '\' cluster])
         end
         VID = load_video_to_mat([filenames{i} '.avi'], 160, 1, 200);
         clusters_idx = shearlet_video_clustering_full( VID, SORT_CTRS, [cameras{camera_num(i)+1} '\' cluster '\' filenames{i} '_' cluster], true);
-        load(['Dataset\Dynamism_data\Dynamism_' filenames{i}  '_scale' num2str(scale)]);
+        load([path1 'Dynamism_data\Dynamism_' filenames{i}  '_scale' num2str(scale)]);
         flow = shearlet_plot_cluster_over_time_with_dynamism(VID, res, clusters_idx, 2, 99);
         title(['Evolution of Clusters over time in file ' actions{action_num(i)} ' by camera ' cameras{camera_num(i)+1} ' using cluster ' cluster]);
         print([path1 'Graphs_with_dynamism\' cameras{camera_num(i)+1}  '\TimeEvolution_' filenames{i} '_cluster_' cluster], '-dpng');
         savefig([path1 'Graphs_with_dynamism\' cameras{camera_num(i)+1}  '\TimeEvolution_' filenames{i} '_cluster_' cluster '.fig']);
-        print([path2 cameras{camera_num(i)+1}  '\TimeEvolution_' filenames{i} '_cluster_' cluster], '-dpng');
-        savefig([path2 cameras{camera_num(i)+1}  '\TimeEvolution_' filenames{i} '_cluster_' cluster '.fig']);
-        save(['Dropbox\new_actions\flow\Flow_' filenames{i} '_' cluster '.mat'],'flow');
+        print([path2 'Graphs\' cameras{camera_num(i)+1}  '\TimeEvolution_' filenames{i} '_cluster_' cluster], '-dpng');
+        savefig([path2 'Graphs\' cameras{camera_num(i)+1}  '\TimeEvolution_' filenames{i} '_cluster_' cluster '.fig']);
+        save([path2 'flow\Flow_' filenames{i} '_' cluster '.mat'],'flow');
         close all
         clear VID
     end
-    datestr(now)
+    disp(datestr(now))
     
 end
 

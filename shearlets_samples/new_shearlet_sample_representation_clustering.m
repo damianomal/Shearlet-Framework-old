@@ -72,7 +72,7 @@ shearlet_show_avg_descriptor(COEFFS, 46, 3, idxs, SORTED_CL_IMAGE == CLUSTER_TO_
 % calculates the transform
 
 clear VID;
-VID = load_video_to_mat('boxing_sample.avi',160, 1,100);
+VID = load_video_to_mat('salt1_cam0.avi',160, 1,100);
 
 clear COEFFS idxs 
 [COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1);
@@ -81,7 +81,7 @@ clear COEFFS idxs
 % new sequence selected)
 
 TARGET_FRAME = 35;
-SCALE_USED = 2;
+SCALE_USED = 3;
 
 REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true);
 
@@ -91,11 +91,15 @@ REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, tru
 % script)
 
 %%
-
-CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, SORT_CTRS);
+close all
+% CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, ASLAN_20_centroids_scale2);
+% CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, CHALEARN_12_centroids_scale3);
+% CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, KTH_20_centroids_scale2);
+% CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, EATING2_12_centroids_scale3);
+CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, EATING2CAM2_20_centroids_scale3);
 
 % shows a colormap associated with the clusters found
-
+CLUSTER_NUMBER = 12;
 shearlet_cluster_image(CL_IND, CLUSTER_NUMBER, true, false);
 
 % shows a single cluster as an overlay on the original frame

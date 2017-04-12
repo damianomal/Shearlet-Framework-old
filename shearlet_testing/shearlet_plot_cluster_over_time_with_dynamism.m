@@ -1,4 +1,4 @@
-function img = shearlet_plot_cluster_over_time_with_dynamism( vid, res, clusters_idx, t_start, t_end, only_return_image)
+function [flow] = shearlet_plot_cluster_over_time_with_dynamism( vid, res, clusters_idx, t_start, t_end, only_return_image)
 %SHEARLET_PLOT_CLUSTERS_OVER_TIME Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -31,7 +31,7 @@ mat5 = clusters_idx(:,:, 10:t_end).*diff;
 hold all;%%%%%%%%%%% why??
 %
 START_VAL = 1;
-END_VAL = 10;
+END_VAL = 12;
 %
 h = zeros(1,END_VAL - START_VAL + 1);
 % names = cell(1, END_VAL - START_VAL + 1);
@@ -41,9 +41,11 @@ h_index = 1;
 % titles = {'background', 'background', 'background (higher)', 'far edges', ...
 %     'corner(ish)', 'edges', 'dyn. edges', 'dyn. corners'};
 %
+% legend_label = {''};
 for i=START_VAL:END_VAL
     %
     d = squeeze(sum(sum(mat5 == i,1),2));
+    flow(:,i) = d;
     if sum(d)<10 % || (max(d) - min(d)<10)
         continue
     end
@@ -54,9 +56,10 @@ for i=START_VAL:END_VAL
     %     names{h_index} = titles{i};
     %
     h_index = h_index + 1;
+%     legend_label{h_index} = ['Centroid ' num2str(i)];
 end
-
-%
+% legend(legend_label,'Location', 'eastoutside');
+% %
 % lgd = legend(h, names);
 
 %
@@ -71,7 +74,7 @@ hold off;
 if(only_return_image)
     f = getframe(gca);
     img = f.cdata;
-    close(fH);
+    close;
 end
 
 end
