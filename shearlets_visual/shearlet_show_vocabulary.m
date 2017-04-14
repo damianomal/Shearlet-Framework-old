@@ -16,9 +16,10 @@ end
 incr = 0;
 redraw = true;
 
- figure('Name','Centroids Vocabulary', 'Position', [726 554 560 420]);
+%  figure('Name','Centroids Vocabulary', 'Position', [726 554 560 420]);
+ figure('Name','Centroids Vocabulary', 'Position', [305 95 1612 898]);
 
-while true
+ while true
     
     if(redraw)
         for i=1:dim

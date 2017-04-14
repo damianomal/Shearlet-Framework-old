@@ -15,8 +15,8 @@ s1 = struct('name', '7-0006.mp4', 'start', 1, 'end', 100);
 
 s = {s1};
 
-% ASLAN_20_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 2);
-% ASLAN_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3);
+ASLAN_20_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 2);
+ASLAN_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3);
 
 ASLAN_12_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 2);
 ASLAN_12_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 3);
@@ -33,6 +33,60 @@ CHALEARN_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3)
 
 CHALEARN_12_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 2);
 CHALEARN_12_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 3);
+
+
+%%
+
+s1 = struct('name', 'eating2_cam0.avi', 'start', 1, 'end', 100);
+
+s = {s1};
+
+EATING2CAM0_20_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 2);
+EATING2CAM0_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3);
+
+EATING2CAM0_12_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 2);
+EATING2CAM0_12_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 3);
+
+
+%%
+
+s1 = struct('name', 'eating2_cam1.avi', 'start', 1, 'end', 100);
+
+s = {s1};
+
+EATING2CAM1_20_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 2);
+EATING2CAM1_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3);
+
+EATING2CAM1_12_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 2);
+EATING2CAM1_12_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 3);
+
+
+%%
+
+s1 = struct('name', 'eating2_cam2.avi', 'start', 1, 'end', 100);
+
+s = {s1};
+
+EATING2CAM2_20_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 2);
+EATING2CAM2_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3);
+
+EATING2CAM2_12_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 2);
+EATING2CAM2_12_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 3);
+
+
+%%
+
+s1 = struct('name', 'eating2_cam0.avi', 'start', 1, 'end', 100);
+s2 = struct('name', 'eating2_cam1.avi', 'start', 1, 'end', 100);
+s3 = struct('name', 'eating2_cam2.avi', 'start', 1, 'end', 100);
+
+s = {s1 s2 s3};
+
+EATING2_20_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 2);
+EATING2_20_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 20, 3);
+
+EATING2_12_centroids_scale2 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 2);
+EATING2_12_centroids_scale3 = shearlet_build_vocabulary_repr(s, 4, 0, 0, 12, 3);
 
 
 %%

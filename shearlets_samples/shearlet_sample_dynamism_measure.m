@@ -35,6 +35,7 @@ weights(:,3) = 0;
 
 weights
 
+clear u v i j
 
 %%
 

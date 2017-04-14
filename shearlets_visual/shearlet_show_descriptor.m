@@ -67,13 +67,21 @@ end
 surf(XX, YY, B);
 view([-42.7 19.6]);
 
+% if(normalize)
+% axis([1 15 1 15 0 1]);
+% % % else
+%     
+% end
+
 set(gca,'xticklabel',[])
 set(gca,'yticklabel',[])
+set(gca,'xtick',[])
+set(gca,'ytick',[])
 
 rotate3d on;
 
 %
-if(nargin > 1 && ~isempty(descr_numb))
+if(nargin > 1 && ~isempty(descr_numb) && descr_numb ~= -1)
     title(strcat('Centroid #',int2str(descr_numb)));
 end
 

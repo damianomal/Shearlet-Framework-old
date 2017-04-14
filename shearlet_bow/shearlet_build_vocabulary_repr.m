@@ -23,7 +23,7 @@ for nn=video_set
     
     n = nn{1};
     
-    fprintf('Building vocabulary from video named %s \n', n.name);
+    fprintf('Building vocabulary from video named %s, with W=%d and scale %d \n', n.name, words_num, repr_scale_used);
     
     %
     clear VID
