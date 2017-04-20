@@ -22,7 +22,7 @@ clear COEFFS idxs
 % calculate the 3D Shearlet Transform
 
 clear COEFFS idxs 
-[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1, [2 3]);
+[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1);
 
 %% CLUSTERING OF A SINGLE FRAME USING THE SHEARLET-BASED REPRESENTATION DEVELOPED
 
@@ -31,7 +31,7 @@ close all;
 % calculate the representation for a specific frame (frame number 37 of the
 % sequence represented in the VID structure)
 
-TARGET_FRAME = 37;
+TARGET_FRAME = 35;
 SCALE_USED = 2;
 
 REPRESENTATION = shearlet_descriptor(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true, true);
@@ -57,7 +57,7 @@ shearlet_cluster_image(SORTED_CL_IMAGE, CLUSTER_NUMBER, true, false);
 
 % shows a single cluster as an overlay on the original frame
 
-CLUSTER_TO_SHOW = 14;
+CLUSTER_TO_SHOW = 8;
 [~, mask] = shearlet_overlay_cluster(VID(:,:,TARGET_FRAME), SORTED_CL_IMAGE, CLUSTER_TO_SHOW, true, true);
 % shearlet_show_avg_descriptor(COEFFS, 46, 3, idxs, SORTED_CL_IMAGE == CLUSTER_TO_SHOW);
 

@@ -80,9 +80,11 @@ set(gca,'ytick',[])
 
 rotate3d on;
 
+axis([1 15 1 15 0 max(B(:))]);
+
 %
 if(nargin > 1 && ~isempty(descr_numb) && descr_numb ~= -1)
-    title(strcat('Centroid #',int2str(descr_numb)));
+%     title(strcat('Centroid #',int2str(descr_numb)));
 end
 
 

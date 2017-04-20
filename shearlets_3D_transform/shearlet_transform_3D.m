@@ -115,9 +115,9 @@ for j = 1:size(shearletIdxs,1)
     % executes the shearlet decomposition
     [coeffs,~, dualFrameWeightsCurr,~] = SLsheardecSerial3D(Xfreq,shearletIdx,preparedFilters,dualFrameWeightsCurr);
     
-    if(j == 50)
-        particular_shearlet = gl_shearlet;
-    end
+%     if(j == 50)
+%         particular_shearlet = gl_shearlet;
+%     end
     
     if(~useGPU)
         big_coeffs(:,:,:,j) = abs(coeffs);

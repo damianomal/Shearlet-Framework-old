@@ -7,7 +7,8 @@ clear VID
 % video_filename = '7-0006.mp4';
 % [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
 
-video_filename = 'person04_boxing_d1_uncomp.avi';
+% video_filename = 'person04_boxing_d1_uncomp.avi';
+video_filename = 'person01_handwaving_d1_uncomp.avi';
 [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
 
 % video_filename = 'alessia_rectangle.mp4';
@@ -21,7 +22,7 @@ clear COEFFS idxs
 %%
 
 % parameters for the detection process
-LOWER_THRESHOLD = 0.2;
+LOWER_THRESHOLD = 0.1;
 SPT_WINDOW = 7;
 SCALES = [2];
 CONE_WEIGHTS = [1 1 1];

@@ -62,12 +62,14 @@ if(show)
         % shearlet_show_descriptor(vocab_1(i,:), i, false);
 %         shearlet_show_descriptor(vocab_1(i,:), idx(I(i)), false);
         shearlet_show_descriptor(vocab_1(i,:), -1, false);
-        
+        set(gca,'zticklabel',[])
+
         subplot(2,4,4+index);
         % shearlet_show_descriptor(vocab_2(ASSIGN(i),:), ASSIGN(i), false);
 %         shearlet_show_descriptor(vocab_2(i,:), ASSIGN(idx(I(i))), false);
-        shearlet_show_descriptor(vocab_2(i,:), -1, false);
-        
+        shearlet_show_descriptor(vocab_2(i,:), -1, falese);
+        set(gca,'zticklabel',[])
+
         index = index + 1;
         
         if(index > 4 && i < numel(ASSIGN))
@@ -81,9 +83,10 @@ if(show)
     cur_fig = cur_fig + 1;
     fHandles{cur_fig} = figure; imshow(cost_matrix, [0 1], 'InitialMagnification', 2000);
     
+    colormap default
+    colorbar
+
 end
-
-
 
 % COST = trace(cost_matrix);
 
