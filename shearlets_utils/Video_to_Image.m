@@ -5,7 +5,7 @@ workingDir = 'Dataset';
 % mkdir(workingDir);
 mkdir(workingDir,'Images');
 % cd (workingDir)
-video = VideoReader('robot_8-crank_a_original_cropped.avi');
+video = VideoReader('TABLE_TR_0.avi');
 % cd ..
 ii = 1;
 
