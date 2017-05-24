@@ -25,7 +25,7 @@
 
 load('Database.mat')
 file_num =16:18;
-Part 1: Extracting dynamism data from videos
+%% Part 1: Extracting dynamism data from videos
 
 for scale = 2%:3
     end_frame = 90;

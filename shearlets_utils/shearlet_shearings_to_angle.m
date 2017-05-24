@@ -13,8 +13,12 @@ b = atan((2^(-scale/2))*k1);
 
 angle = [cos(a)*cos(b) cos(a)*sin(b) sin(a)];
 
-rotations = [0 -90 90];
-angles = [1 0 0; 0 0 1; 0 1 0];
+% rotations = [0 -90 90];
+% rotations = [0 90 -90];
+% angles = [1 0 0; 0 0 1; 0 1 0];
+
+rotations = [0 90 -90];
+angles = [1 0 0; 0 1 0; 0 0 1];
 
 vec = [angle 0];
 

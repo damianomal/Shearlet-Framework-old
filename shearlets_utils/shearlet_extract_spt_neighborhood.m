@@ -24,7 +24,7 @@ output_mat = video_mat(x-s_win:x+s_win, y-s_win:y+s_win, t-t_win:t+t_win);
 if(nargout > 1)
     
     Ccell = num2cell(output_mat,[1 2]);
-    Ccell = reshape(Ccell,1,4);
+    Ccell = reshape(Ccell,1,[]);
     output_image = cell2mat(Ccell);
     
     output_image = uint8(output_image) .* color_rescale_factor;

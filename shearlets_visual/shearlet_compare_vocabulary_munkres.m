@@ -2,7 +2,7 @@ function [TOTALCOST, cost_matrix, ASSIGN] =  shearlet_compare_vocabulary_munkres
 %SHEARLET_COMPARE_VOCABULARY_MUNKRES Summary of this function goes here
 %   Detailed explanation goes here
 
-close all;
+% close all;
 
 if(nargin < 4)
     show = true;
@@ -21,9 +21,11 @@ cost_matrix = max(cost_matrix(:)) - cost_matrix;
 [ASSIGN, TOTALCOST] = munkres(cost_matrix);
 
 % ASSIGN
+n_el = (size(vocab_1,1));
 
 mmat = cost_matrix';
-COSTS = mmat(12*[0:11] + ASSIGN);
+% COSTS = mmat(12*[0:11] + ASSIGN);
+COSTS = mmat(n_el*[0:(n_el-1)] + ASSIGN);
 
 [~, idx] = sort(COSTS, 'ascend');
 
@@ -67,7 +69,7 @@ if(show)
         subplot(2,4,4+index);
         % shearlet_show_descriptor(vocab_2(ASSIGN(i),:), ASSIGN(i), false);
 %         shearlet_show_descriptor(vocab_2(i,:), ASSIGN(idx(I(i))), false);
-        shearlet_show_descriptor(vocab_2(i,:), -1, falese);
+        shearlet_show_descriptor(vocab_2(i,:), -1, false);
         set(gca,'zticklabel',[])
 
         index = index + 1;
@@ -81,7 +83,7 @@ if(show)
     end
     
     cur_fig = cur_fig + 1;
-    fHandles{cur_fig} = figure; imshow(cost_matrix, [0 1], 'InitialMagnification', 2000);
+    fHandles{cur_fig} = figure; imshow(1-cost_matrix, [0 1], 'InitialMagnification', 2000);
     
     colormap default
     colorbar

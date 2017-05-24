@@ -8,7 +8,8 @@ if(nargin < 6)
 end
 
 %
-DESCR_MAT = shearlet_descriptor(big_coeffs, time_ind, scale, idxs, true);
+% DESCR_MAT = shearlet_descriptor(big_coeffs, time_ind, scale, idxs, true);
+DESCR_MAT = shearlet_descriptor_fast(big_coeffs, time_ind, scale, idxs, true);
 
 %
 mask_unroll = mask;

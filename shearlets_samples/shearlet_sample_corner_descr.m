@@ -20,12 +20,13 @@ clear COEFFS idxs
 
 %%
 
-time_ind = 46;
+time_ind = 37;
 scale_selected = 2;
 
-imm = VID(:,:,94-46+time_ind);
+% imm = VID(:,:,94-46+time_ind);
+imm = VID(:,:,37);
 
-C = corner(imm, 'Harris');
+C = corner(imm, 'Harris', 'SensitivityFactor', 0.23);
 % C = corner(imm, 'MinimumEigenvalue');
 
 f = figure(1);

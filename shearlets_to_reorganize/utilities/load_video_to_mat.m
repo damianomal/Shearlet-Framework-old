@@ -1,4 +1,4 @@
-function [result, color_result] = load_video_to_mat( input_video, max_size, start_frame, end_frame)
+function [result, color_result] = load_video_to_mat( input_video, max_size, start_frame, end_frame, store)
 %LOAD_VIDEO_TO_MAT Loads a video sequence both in grayscale and color
 %
 % Usage:
@@ -47,6 +47,12 @@ if(nargin < 4)
     end_frame = floor(vidObj.Duration * vidObj.FrameRate);
 end
 
+%
+%
+if(nargin < 5)
+    store = false;
+end
+
 % parameters controls
 % if(max_size < 16)
 %         ME = MException('load_video_to_mat:tiny_max_size_for_frames', ...
@@ -72,6 +78,20 @@ if(end_frame > floor(vidObj.Duration * vidObj.FrameRate))
     end_frame = floor(vidObj.Duration * vidObj.FrameRate);
 end
 
+%
+%
+if(max_size == 0)
+    filename = [lower(strrep(input_video, '.', '_')) '_' int2str(start_frame) '_' int2str(end_frame) '.mat'];
+else
+    filename = [lower(strrep(input_video, '.', '_')) '_' int2str(max_size) '_' int2str(start_frame) '_' int2str(end_frame) '.mat'];
+end
+
+if(exist(['shearlet_preloaded_sequences/' filename], 'file') == 2)
+    load(['shearlet_preloaded_sequences/' filename]);
+    result = VID;
+    color_result = COLOR_VID;
+    return;
+end
 
 % extracts the height and width of each video frame
 frame_h = vidObj.Height;
@@ -100,18 +120,19 @@ while(hasFrame(vidObj) && count <= end_frame)
     
     % reads the current frame
     color_frame = readFrame(vidObj);
-    frame = rgb2gray(color_frame);
     
     % if the user specified to consider the frame
     if(count >= start_frame)
+        
+        frame = rgb2gray(color_frame);
         
         % adds the frame to the resulting matrices, resized or not
         if(resize_frame)
             new_frame = imresize(frame, ratio);
             
             if(size(result,1) ~= size(new_frame,1) || size(result,2) ~= size(new_frame,2))
-                result = zeros(size(new_frame,1), size(new_frame,2), end_frame-start_frame+1); 
-                color_result = zeros(size(new_frame,1), size(new_frame,2), 3, end_frame-start_frame+1); 
+                result = zeros(size(new_frame,1), size(new_frame,2), end_frame-start_frame+1);
+                color_result = zeros(size(new_frame,1), size(new_frame,2), 3, end_frame-start_frame+1);
             end
             
             result(:,:,i) = new_frame;
@@ -123,6 +144,12 @@ while(hasFrame(vidObj) && count <= end_frame)
         i = i + 1;
     end
     count = count + 1;
+end
+
+if(store)
+    VID = result;
+    COLOR_VID = color_result;
+    save(['shearlet_preloaded_sequences/' filename], 'VID', 'COLOR_VID');
 end
 
 end

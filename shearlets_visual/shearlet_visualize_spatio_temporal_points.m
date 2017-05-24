@@ -8,7 +8,7 @@ end
 
 points = dlmread(stips_file);
 % [frame-t_win:frame+t_win]
-offset+[frame-t_win:frame+t_win]
+% offset+[rframe-t_win:frame+t_win]
 points = points(ismember(points(:,3), offset+[frame-t_win:frame+t_win]), :);
 
 if(nargout < 1)

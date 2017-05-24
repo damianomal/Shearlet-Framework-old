@@ -4,20 +4,35 @@
 % load the video sequence
 
 clear VID 
+video_filename = 'walk-complex.avi';
+[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
+
 % video_filename = '7-0006.mp4';
-% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
+% video_filename = '7-0238.mp4';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,80,180, true);
+% video_filename = '7-0018.mp4';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'person04_boxing_d1_uncomp.avi';
-video_filename = 'person01_handwaving_d1_uncomp.avi';
-[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100);
+% video_filename = 'person01_handwaving_d1_uncomp.avi';
+% video_filename = 'person01_walking_d1_uncomp.avi';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'alessia_rectangle.mp4';
-% [VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700);
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700, true);
+
+% video_filename = 'Sample0001_color.mp4';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1238,1338, true);
+
+
+% video_filename = 'Sample0006_color.mp4';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,550,650, true);
 
 % calculate the 3D Shearlet Transform
 
 clear COEFFS idxs
-[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1, [2]);
+[COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1, [2 3]);
 
 %%
 
@@ -27,6 +42,23 @@ SPT_WINDOW = 7;
 SCALES = [2];
 CONE_WEIGHTS = [1 1 1];
 
+% video walking 1 1
+LOWER_THRESHOLD = 0.1;
+SPT_WINDOW = 11;
+SCALES = [2];
+CONE_WEIGHTS = [1 1 1];
+
+% LOWER_THRESHOLD = 0.02;
+% SPT_WINDOW = 9;
+% SCALES = [2 3];
+% CONE_WEIGHTS = [1 1 1];
+
+% video walk-complex.avi
+% LOWER_THRESHOLD = 0.5;
+% SPT_WINDOW = 9;
+% SCALES = [2];
+% CONE_WEIGHTS = [1.4 1.2 0.6];
+
 % detect spatio-temporal interesting points within the sequence
 
 close all;
@@ -34,6 +66,11 @@ close all;
 output_name = shearlet_create_video_outname( video_filename, SCALES, LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS);
 
 [COORDINATES, CHANGE_MAP] = shearlet_detect_points( VID(:,:,1:91), COEFFS, SCALES, [], LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS, false, output_name);
+
+
+%%
+
+shearlet_play_overlay_points(COLOR_VID(:,:,:,1:91)./255, COORDINATES, true, 1)
 
 %%
 
@@ -51,7 +88,7 @@ comparison_heatmap_from_points(VID, floor(COORDINATES));
 
 close all;
 
-shearlet_frames_with_most_points(COLOR_VID, COUNTS, [4], COORDINATES);
+shearlet_frames_with_most_points(VID, COUNTS, [4], COORDINATES)
 
 %%
 

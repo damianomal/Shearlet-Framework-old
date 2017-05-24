@@ -2,7 +2,7 @@ function [mat, norm_mat] =  shearlet_compare_vocabulary( vocab_1, vocab_2, show,
 %SHEARLET_COMPARE_VOCABULARY Summary of this function goes here
 %   Detailed explanation goes here
 
-close all;
+% close all;
 
 if(nargin < 3)
     show = true;
