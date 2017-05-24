@@ -26,35 +26,35 @@
 % action_num = ceil(file_num/9);
 % camera_num = mod(file_num-1,3);
 
-scale = 2;
+% scale = 2;
 
 %% Part 2.1: Extract/Load Cluster set
 % This section makes a new cluster set or loads a pre-saved cluster from
 % system memory.
 load('Database.mat')
-% file_num =1;
-for cluster_num = 1:3%1:5
-%     if cluster_num == 1
-%         load('G:\Shearlet-Framework\Shearlet_detection_clustering\centroids_sets.mat')
-%         SORT_CTRS = KTH_12_centroids_scale2;
-%         scale = 2;
-%     else
-%         load('G:\Shearlet-Framework\Shearlet_detection_clustering\eating2_centroids.mat')
-%         switch cluster_num
-%             case 2
-%                 SORT_CTRS = EATING2_12_centroids_scale2 ;
-%                 scale = 2;
-%             case 3
-%                 SORT_CTRS = EATING2CAM2_12_centroids_scale2 ;
-%                 scale = 2;
-%             case 4
-%                 SORT_CTRS = EATING2CAM2_12_centroids_scale3 ;
-%                 scale = 3;
-%             case 5
-%                 SORT_CTRS = EATING2CAM2_20_centroids_scale3 ;
-%                 scale = 3;
-%         end
-%     end
+file_num =1;
+for cluster_num = 4:5
+    if cluster_num == 1
+        load('G:\Shearlet-Framework\Shearlet_detection_clustering\centroids_sets.mat')
+        SORT_CTRS = KTH_12_centroids_scale2;
+        scale = 2;
+    else
+        load('G:\Shearlet-Framework\Shearlet_detection_clustering\eating2_centroids.mat')
+        switch cluster_num
+            case 2
+                SORT_CTRS = EATING2_12_centroids_scale2 ;
+                scale = 2;
+            case 3
+                SORT_CTRS = EATING2CAM2_12_centroids_scale2 ;
+                scale = 2;
+            case 4
+                SORT_CTRS = EATING2CAM2_12_centroids_scale3 ;
+                scale = 3;
+            case 5
+                SORT_CTRS = EATING2CAM2_20_centroids_scale3 ;
+                scale = 3;
+        end
+    end
     cluster = clusters{cluster_num};
 %     disp(['Starting with cluster ' cluster])
     path1 = 'Dataset\';

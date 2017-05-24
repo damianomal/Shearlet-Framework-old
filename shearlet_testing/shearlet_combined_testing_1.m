@@ -35,25 +35,28 @@ clear all
 %% Part 2: Extract/Load Cluster set
 % This section makes a new cluster set or loads a pre-saved cluster from
 % system memory.
-cluster = 8;
 
-path = 'Shearlet-Framework\Shearlet_detection_clustering\saved_cluster';
-if exist('cluster','var')==0
-    cluster = 9;
-    filename = 'robot_2-transporting_a_original_cropped.avi';
-    VID = load_video_to_mat(filename,160);
-    SCALE = 3;
-    CLUSTER_NUMBER = 10;
-    FRAME = 32;
-    [COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1);
-    [~, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,FRAME,SCALE,CLUSTER_NUMBER);
-    save([path cluster],'SORT_CTRS')
-    clear filename VID SCALE CLUSTER_NUMBERS FRAMES COEFFS idxs 
-else
-    load([path num2str(cluster)]);
-    clear path
-end
-
+load('G:\Shearlet-Framework\Shearlet_detection_clustering\centroids_sets.mat')
+SORT_CTRS = KTH_12_centroids_scale2;
+cluster = 'KTH_12_scale2';
+% cluster = 8;
+% 
+% path = 'Shearlet-Framework\Shearlet_detection_clustering\saved_cluster';
+% if exist('cluster','var')==0
+%     cluster = 9;
+%     filename = 'robot_2-transporting_a_original_cropped.avi';
+%     VID = load_video_to_mat(filename,160);
+%     SCALE = 3;
+%     CLUSTER_NUMBER = 10;
+%     FRAME = 32;
+%     [COEFFS,idxs] = shearlet_transform_3D(VID,46,91,[0 1 1], 3, 1);
+%     [~, SORT_CTRS] = shearlet_cluster_single_frame(COEFFS,idxs,FRAME,SCALE,CLUSTER_NUMBER);
+%     save([path cluster],'SORT_CTRS')
+%     clear filename VID SCALE CLUSTER_NUMBERS FRAMES COEFFS idxs 
+% else
+%     load([path num2str(cluster)]);
+%     clear path
+% end
 
 %% Database
 filenames = {'robot_1-reaching_a', 'robot_2-transporting_a', 'robot_5-mixing_a', ...
@@ -73,38 +76,72 @@ files = 9:14; %files being used in this code.
 
 %% Part 3: Clustering
 % To run the clustering process on all the defined videos
-
-for k = 8      % define the clusters IDs to be used.
-    load(['G:\Shearlet-Framework\Shearlet_detection_clustering\saved_cluster' num2str(k) '.mat']);
+% 
+% for k = 8      % define the clusters IDs to be used.
+%     load(['G:\Shearlet-Framework\Shearlet_detection_clustering\saved_cluster' num2str(k) '.mat']);
     tic
-    for i=9 %files %:14 %numel(filenames) % files to be clustered
+    for i=files(2) %:14 %numel(filenames) % files to be clustered
         disp(i);
-        if exist(['Dataset\clustering_files\' cameras{i} '\cluster' num2str(cluster)],'dir')~=7
-            mkdir(['Dataset\clustering_files\' cameras{i} '\cluster' num2str(cluster)])
+        datestr(now)
+        if exist(['Dataset\clustering_files\' cameras{i} '\' cluster],'dir')~=7
+            mkdir(['Dataset\clustering_files\' cameras{i} '\' cluster])
         end
         VID = load_video_to_mat([filenames{i} '.avi'], 160, 1, 200);
-        shearlet_video_clustering_full( VID, SORT_CTRS, [cameras{i} '\cluster' num2str(cluster) '\' filenames{i} '_cluster' num2str(k)], true);
+        shearlet_video_clustering_full( VID, SORT_CTRS, [cameras{i} '\' cluster '\' filenames{i} '_' cluster], true);
         clear VID
     end
     toc
     beep
     datestr(now)
-end
-clear i k
+% end
+clear i 
 
+%     tic
+%     for i=files %:14 %numel(filenames) % files to be clustered
+%         disp(i);
+%         if exist(['Dataset\clustering_files\' cameras{i} '\cluster' num2str(cluster)],'dir')~=7
+%             mkdir(['Dataset\clustering_files\' cameras{i} '\cluster' num2str(cluster)])
+%         end
+%         VID = load_video_to_mat([filenames{i} '.avi'], 160, 1, 200);
+%         shearlet_video_clustering_full( VID, SORT_CTRS, [cameras{i} '\cluster' num2str(cluster) '\' filenames{i} '_cluster' num2str(k)], true);
+%         clear VID
+%     end
+%     toc
+%     beep
+%     datestr(now)
+% % end
+% clear i k
 
 %% Part 4: Extracting dynamism data from videos         
 %          
 scale = 2;
-end_frame = 200;
+end_frame = 90;
 tic
-for i=files %1:numel(filenames) %define the files to be used.
+for i=files(2:end) %1:numel(filenames) %define the files to be used.
     disp(i);
     filename = filenames{i};
     res = shearlet_dynamism_measure_save_for_testing([filename '.avi' ], scale , end_frame);
-    save(['Dataset\Dymanism_data\Dynamism_' filenames{i}], 'filename', 'res');
+    save(['Dataset\Dynamism_data\Dynamism_' filenames{i}], 'filename', 'res');
+    clear filename
+%     load(['Dataset\Dynamism_data\Dynamism_' filenames{i}],'res');
+    load([path1 'Clustering_files\' cameras{i} '\' cluster '\' filenames{i} '_' cluster '_cluster_and_vid.mat'])
+    shearlet_plot_cluster_over_time_with_dynamism(VID, res, clusters_idx, 2, 99);
+    title(['Evolution of Clusters over time in file ' actions{i} ' by camera ' cameras{i} ' using cluster ' cluster]);
+    print([path1 'Graphs_with_dynamism\' cameras{i}  '\TimeEvolution_' actions{i} '_cluster_' cluster '_' cameras{i}], '-dpng');
+    savefig([path1 'Graphs_with_dynamism\' cameras{i}  '\TimeEvolution_' actions{i} '_cluster_' cluster '_' cameras{i} '.fig']);
+close all
 end
 toc
 datestr(now)
 
 %% Part 5: Saving the flow of each cluster
+path1 = 'Dataset\';
+for i = files(2)
+    load(['Dataset\Dynamism_data\Dynamism_' filenames{i}],'res');
+    load([path1 'Clustering_files\' cameras{i} '\' cluster '\' filenames{i} '_' cluster '_cluster_and_vid.mat'])
+    shearlet_plot_cluster_over_time_with_dynamism(VID, res, clusters_idx, 2, 99);
+    title(['Evolution of Clusters over time in file ' actions{i} ' by camera ' cameras{i} ' using cluster ' cluster]);
+    print([path1 'Graphs_with_dynamism\' cameras{i}  '\TimeEvolution_' actions{i} '_cluster_' cluster '_' cameras{i}], '-dpng');
+    savefig([path1 'Graphs_with_dynamism\' cameras{i}  '\TimeEvolution_' actions{i} '_cluster_' cluster '_' cameras{i} '.fig']);
+close all
+end
