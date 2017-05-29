@@ -2,12 +2,12 @@ function  shearlet_initialize_megamap(sz, idxs)
 %SHEARLET_INITIALIZE_MEGAMAP Summary of this function goes here
 %   Detailed explanation goes here
 
-global MEGAMAP
+global MEGAMAP real_indexes fake_indexes
 
 MEGAMAP = zeros(75,3,121);
 
 for scale_chosen=2:3
-        
+    
     dummy_matrix = zeros(sz(1),sz(2),sz(4));
     
     for i = 1:3
@@ -28,6 +28,12 @@ for scale_chosen=2:3
     
     real_indexes = [cc1(:); cc2(:); cc3(:)];
     
+    cc1 = flip(c1, 2)';
+    cc2 = flip(c2, 2)';
+    cc3 = flip(c3, 2)';
+    
+    fake_indexes = [cc1(:); cc2(:); cc3(:)];
+    
     mask = zeros(15,15);
     
     mask(6:10, 3:13) = 1;
@@ -35,7 +41,7 @@ for scale_chosen=2:3
     
     
     %%
-        
+    
     for indice=1:75
         
         MBIG = [Z, Z, Z;
