@@ -21,48 +21,48 @@ function [ coeffs_mat ] = shearlet_descriptor_fast( big_coeffs, t, scale, shearl
  
 % 2016 Damiano Malafronte.
 
-global MEGAMAP
+global MEGAMAP real_indexes fake_indexes
 
 if(isempty(MEGAMAP))
     shearlet_initialize_megamap(size(big_coeffs), shearletIdxs);
 end
     
-dummy_matrix = zeros(size(big_coeffs,1),size(big_coeffs,2),size(big_coeffs,4));
-
-for i = 1:3
-    for j = 1:3
-        dummy_matrix(i,j,:) = 1:size(dummy_matrix, 3);
-    end
-end
-
-[c1, c2, c3] = shearlet_dummy_calculate_grids(dummy_matrix, 2, 2, 2, scale, shearletIdxs, 0);
-
-Z = zeros(5,5);
-
-res_v = shearlet_create_indexes_matrix;
-
-cc1 = c1';
-cc2 = c2';
-cc3 = c3';
-
-real_indexes = [cc1(:); cc2(:); cc3(:)];
-
-cc1 = flip(c1, 2)';
-cc2 = flip(c2, 2)';
-cc3 = flip(c3, 2)';
-
-fake_indexes = [cc1(:); cc2(:); cc3(:)];
-
-%
-if(nargin < 6)
-    profiling = false;
-    
-    if(nargin < 5)
-        print_debug = false;
-    end
-end
-
-%
+% dummy_matrix = zeros(size(big_coeffs,1),size(big_coeffs,2),size(big_coeffs,4));
+% 
+% for i = 1:3
+%     for j = 1:3
+%         dummy_matrix(i,j,:) = 1:size(dummy_matrix, 3);
+%     end
+% end
+% 
+% [c1, c2, c3] = shearlet_dummy_calculate_grids(dummy_matrix, 2, 2, 2, scale, shearletIdxs, 0);
+% 
+% Z = zeros(5,5);
+% 
+% res_v = shearlet_create_indexes_matrix;
+% 
+% cc1 = c1';
+% cc2 = c2';
+% cc3 = c3';
+% 
+% real_indexes = [cc1(:); cc2(:); cc3(:)];
+% 
+% cc1 = flip(c1, 2)';
+% cc2 = flip(c2, 2)';
+% cc3 = flip(c3, 2)';
+% 
+% fake_indexes = [cc1(:); cc2(:); cc3(:)];
+% 
+% %
+% if(nargin < 6)
+%     profiling = false;
+%     
+%     if(nargin < 5)
+%         print_debug = false;
+%     end
+% end
+% 
+% %
 coeffs_mat = zeros(size(big_coeffs,1)*size(big_coeffs,2), 121);
 
 %
@@ -75,48 +75,50 @@ end
 
 %% averaging first step
 
-base = squeeze(big_coeffs(:,:,t,:));
-
-shifted = zeros(size(big_coeffs,1),size(big_coeffs,2), size(shearletIdxs,1), 27);
-
-shifted(:,:,:,1) = big_coeffs(:,:,t,:);
-
-c = 2;
-
-for i=-1:1
-    temp = circshift(base, i, 1);
-    for j=-1:1
-        shifted(:,:,:,c) = circshift(temp, j, 2);
-        c = c + 1;
-    end
-end
-
-base = squeeze(big_coeffs(:,:,t-1,:));
-
-for i=-1:1
-    temp = circshift(base, i, 1);
-    for j=-1:1
-        shifted(:,:,:,c) = circshift(temp, j, 2);
-        c = c + 1;
-    end
-end
-
-base = squeeze(big_coeffs(:,:,t+1,:));
-
-for i=-1:1
-    temp = circshift(base, i, 1);
-    for j=-1:1
-        shifted(:,:,:,c) = circshift(temp, j, 2);
-        c = c + 1;
-    end
-end
-
-COEFFS_SHIFT = mean(shifted, 4);
+% base = squeeze(big_coeffs(:,:,t,:));
+% 
+% shifted = zeros(size(big_coeffs,1),size(big_coeffs,2), size(shearletIdxs,1), 27);
+% 
+% shifted(:,:,:,1) = big_coeffs(:,:,t,:);
+% 
+% c = 2;
+% 
+% for i=-1:1
+%     temp = circshift(base, i, 1);
+%     for j=-1:1
+%         shifted(:,:,:,c) = circshift(temp, j, 2);
+%         c = c + 1;
+%     end
+% end
+% 
+% base = squeeze(big_coeffs(:,:,t-1,:));
+% 
+% for i=-1:1
+%     temp = circshift(base, i, 1);
+%     for j=-1:1
+%         shifted(:,:,:,c) = circshift(temp, j, 2);
+%         c = c + 1;
+%     end
+% end
+% 
+% base = squeeze(big_coeffs(:,:,t+1,:));
+% 
+% for i=-1:1
+%     temp = circshift(base, i, 1);
+%     for j=-1:1
+%         shifted(:,:,:,c) = circshift(temp, j, 2);
+%         c = c + 1;
+%     end
+% end
+% 
+% COEFFS_SHIFT = mean(shifted, 4);
 
 %
 COEFFS_SHIFT = shearlet_average_shifted_coeffs(big_coeffs, shearletIdxs, t, 1);
 
-%
+%%
+
+
 for xx=2:size(big_coeffs,1)-1
         
     for yy=2:size(big_coeffs,2)-1
