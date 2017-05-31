@@ -49,8 +49,8 @@ h_index = 1;
 %     'corner(ish)', 'edges', 'dyn. edges', 'dyn. corners'};
 
 
-% if(~only_return_image) 
-%     figure; 
+% if(~only_return_image)
+%     figure;
 % end
 
 %
@@ -82,10 +82,11 @@ lgd.Color = [0.8 0.8 0.8];
 %
 hold off;
 
+f = getframe(gca);
+img = f.cdata;
+
 %
 if(only_return_image)
-    f = getframe(gca);
-    img = f.cdata;
     close(fH);
 end
 

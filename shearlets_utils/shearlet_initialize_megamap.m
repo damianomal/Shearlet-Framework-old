@@ -6,6 +6,9 @@ global MEGAMAP real_indexes fake_indexes
 
 MEGAMAP = zeros(75,3,121);
 
+real_indexes = cell(1,3);
+fake_indexes = cell(1,3);
+
 for scale_chosen=2:3
     
     dummy_matrix = zeros(sz(1),sz(2),sz(4));
@@ -26,13 +29,13 @@ for scale_chosen=2:3
     cc2 = c2';
     cc3 = c3';
     
-    real_indexes = [cc1(:); cc2(:); cc3(:)];
+    real_indexes{scale_chosen} = [cc1(:); cc2(:); cc3(:)];
     
     cc1 = flip(c1, 2)';
     cc2 = flip(c2, 2)';
     cc3 = flip(c3, 2)';
     
-    fake_indexes = [cc1(:); cc2(:); cc3(:)];
+    fake_indexes{scale_chosen} = [cc1(:); cc2(:); cc3(:)];
     
     mask = zeros(15,15);
     
@@ -48,7 +51,7 @@ for scale_chosen=2:3
             Z, c1, c2;
             Z, c3, Z];
         
-        [ir, ic] = find(MBIG == real_indexes(indice));
+        [ir, ic] = find(MBIG == real_indexes{scale_chosen}(indice));
         
         ind = floor((indice-1)/25)+1;
         

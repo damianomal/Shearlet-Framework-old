@@ -8,14 +8,17 @@ clear VID
 % video_filename = 'line_l.mp4';
 % VID = load_video_to_mat(video_filename,160,400,500, true);
 
-video_filename = 'person04_boxing_d1_uncomp.avi';
-VID = load_video_to_mat(video_filename,160,1,100, true);
+% video_filename = 'person04_boxing_d1_uncomp.avi';
+% VID = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'mixing_cam1.avi';
 % VID = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'TRUCK.mp4';
 % VID = load_video_to_mat(video_filename,160,1300,1400, true);
+
+video_filename = 'eating_cam0.avi';
+VID = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'Sample0001_color.mp4';
 % VID = load_video_to_mat(video_filename,160,1238,1338, true);
@@ -35,15 +38,20 @@ th = 0.1;
 % scale = 3;
 % th = 0.05;
 
-START_IND = 32;
-END_LIM = 57;
+% START_IND = 32;
+% END_LIM = 57;
 
+% truck
 % START_IND = 60;
 % END_LIM = 85;
-% 
+
+% eating cam0
+START_IND = 2;
+END_LIM = 26;
+
+%
 % START_IND = 25;
 % END_LIM = 50;
-
 
 velocity_map = zeros(size(COEFFS,1), size(COEFFS,2), END_LIM-START_IND+1, 3);
 color_map = zeros(size(COEFFS,1), size(COEFFS,2), END_LIM-START_IND+1, 3);
@@ -60,14 +68,14 @@ st = tic;
 
 fprintf('Calculated time: %d sec.\n', 17*(END_LIM-START_IND+1));
 
-for t=[30 49]
-    %     for t=START_IND:END_LIM
+% for t=[30 49]
+for t=START_IND:END_LIM
     
     fprintf('Processing frame: %d..\n', t);
     
     for xx=2:size(COEFFS,1)-1
         
-        %         fprintf('Processing row: %d..\n', xx);
+        % fprintf('Processing row: %d..\n', xx);
         
         for yy=2:size(COEFFS,2)-1
             
@@ -93,10 +101,10 @@ for t=[30 49]
             
             velocity_map(xx,yy,t-START_IND+1, :) = angle;
             
-            
-            if(angle(3) == 0)
-                continue;
-            end
+%             
+%             if(angle(3) == 0)
+%                 continue;
+%             end
             
             %             angle_not_t = angle;
             %             angle_not_t(3) = 0;
@@ -169,7 +177,7 @@ end
 
 %% draw current color wheel
 
-shearlet_show_color_wheel;
+shearlet_show_color_wheel(true);
 
 %% run only to update the color_map object, in case it's needed
 
@@ -179,8 +187,8 @@ color_map = zeros(size(COEFFS,1), size(COEFFS,2), END_LIM-START_IND+1, 3);
 % mina = 300;
 % maxa = -1;
 
-% for t=START_IND:END_LIM
-for t=[30 49]
+for t=START_IND:END_LIM
+    % for t=[30 49]
     
     fprintf('Processing frame: %d..\n', t);
     
@@ -288,13 +296,14 @@ count = 1;
 
 % frames_to_save = [66 71 79 80 81];
 % frames_to_pause = [71 80];
-frames_to_save = [27 28 29 30 46 47 48 49 50];
+% frames_to_save = [27 28 29 30 46 47 48 49 50];
+frames_to_save = [3 8 10 15 21];
 % frames_to_save = [];
 frames_to_pause = [];
 savename = 'boxing';
 
 
-count = 6;
+count = 1;
 
 while true
     
@@ -311,30 +320,30 @@ while true
     
     title(['Frame ' int2str(START_IND-1+count)]);
     
-    pause(0.1);
+    pause(0.04);
     
-    if(ismember(START_IND-1+count, frames_to_save))
-        imwrite(VID(:,:,START_IND-1+count)./255, ['frame_' savename '_' int2str(START_IND-1+count) '.png']);
-        imwrite(squeeze(color_map(:,:,count, :)), ['frame_color_' savename '_' int2str(START_IND-1+count) '.png']);
-    end
+        if(ismember(START_IND-1+count, frames_to_save))
+            imwrite(VID(:,:,START_IND-1+count)./255, ['frame_' savename '_' int2str(START_IND-1+count) '_2.png']);
+            imwrite(squeeze(color_map(:,:,count, :)), ['frame_color_' savename '_' int2str(START_IND-1+count) '_2.png']);
+        end
     
     %     if(ismember(START_IND-1+count, frames_to_pause))
     %         pause;
     %     end
-    %
-    %     count = count + 1;
     
-    if(count == 6)
-        count = 25;
-    else
-        count = 6;
-    end
+    count = count + 1;
+    
+    %     if(count == 6)
+    %         count = 25;
+    %     else
+    %         count = 6;
+    %     end
     
     % skipping last frames
     %     if(count > size(velocity_map,3) - 4)
     if(count > size(velocity_map,3))
         count = 1;
-        break;
+                break;
     end
     
 end

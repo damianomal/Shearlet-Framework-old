@@ -1,4 +1,4 @@
-function [ velocity_map ] = shearlet_normal_fast( big_coeffs, idxs, t, scale, th)
+function [ velocity_map, cone_map ] = shearlet_normal_fast( big_coeffs, idxs, t, scale, th, profiling)
 %SHEARLET_NORMAL_FASGT Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,6 +7,15 @@ global MEGAMAP_ANGLES real_indexes fake_indexes
 
 if(isempty(MEGAMAP_ANGLES))
     shearlet_initialize_megamap_angle(size(big_coeffs), idxs);
+end
+
+if(nargin < 6)
+   profiling = true; 
+end
+
+%
+if(profiling)
+   st = tic; 
 end
 
 cone_map = zeros(size(big_coeffs,1), size(big_coeffs,2));
@@ -23,9 +32,8 @@ for xx=2:size(big_coeffs,1)-1
         if(mx < th)
             continue;
         end
-        
-        
-        ii = find(fake_indexes == real_indexes(ii));
+                
+        ii = find(fake_indexes{scale} == real_indexes{scale}(ii));
         
         cone_map(xx,yy) = floor((ii-1)/25)+1;
         
@@ -39,6 +47,11 @@ for xx=2:size(big_coeffs,1)-1
     end
 end
 
+
+% 
+if(profiling)
+    fprintf('-- Time for Motion Extraction: %.4f seconds\n', toc(st));
+end
 
 end
 

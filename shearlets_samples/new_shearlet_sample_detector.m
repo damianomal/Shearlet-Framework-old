@@ -54,10 +54,10 @@ CONE_WEIGHTS = [1 1 1];
 % CONE_WEIGHTS = [1 1 1];
 
 % video walk-complex.avi
-% LOWER_THRESHOLD = 0.5;
-% SPT_WINDOW = 9;
-% SCALES = [2];
-% CONE_WEIGHTS = [1.4 1.2 0.6];
+LOWER_THRESHOLD = 0.5;
+SPT_WINDOW = 9;
+SCALES = [2];
+CONE_WEIGHTS = [1.4 1.2 0.6];
 
 % detect spatio-temporal interesting points within the sequence
 

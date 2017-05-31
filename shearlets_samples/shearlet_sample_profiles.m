@@ -6,13 +6,17 @@ clear VID
 % video_filename = 'line_l.mp4';
 % VID = load_video_to_mat(video_filename,160,400,500, true);
 
-video_filename = 'mixing_cam1.avi';
-VID = load_video_to_mat(video_filename,160,1,100, true);
+% video_filename = 'mixing_cam1.avi';
+% VID = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'person04_running_d1_uncomp.avi';
-% video_filename = 'person04_boxing_d1_uncomp.avi';
+video_filename = 'person04_boxing_d1_uncomp.avi';
 % video_filename = 'person01_handwaving_d1_uncomp.avi';
-% VID = load_video_to_mat(video_filename,160,1,100, true);
+VID = load_video_to_mat(video_filename,160,1,100, true);
+
+% video_filename = 'TRUCK.mp4';
+% VID = load_video_to_mat(video_filename,160,1300,1400, true);
+
 
 % calculate the 3D Shearlet Transform
 
@@ -32,7 +36,7 @@ REPRESENTATION = shearlet_descriptor_fast(COEFFS, TARGET_FRAME, SCALE_USED, idxs
 % clusters the representations for this particular frame in N clusters
 
 
-%% VISUALIZING THE CLUSTERING RESULTS FOR A FIXED NUMBER OF CLUSTERS
+% VISUALIZING THE CLUSTERING RESULTS FOR A FIXED NUMBER OF CLUSTERS
 
 CLUSTER_NUMBER = 8;
 [CL_IND, CTRS] = shearlet_cluster_coefficients(REPRESENTATION, CLUSTER_NUMBER, [size(COEFFS,1) size(COEFFS,2)]);
@@ -69,21 +73,45 @@ fprintf('-- Time for Full Video Repr. Extraction: %.4f seconds\n', toc(st));
 
 st = tic;
 
-scale = 2;
-th = 0.1;
+scale = 3;
+th = 0.05;
 
 full_motion = zeros(size(COEFFS,1), size(COEFFS,2), size(COEFFS,3));
 
 for t=2:90
-    angle = shearlet_normal_fast(COEFFS, idxs, t, scale, th);
-    full_motion(:,:,t) = angle(:,:,3);
+    angle_map = shearlet_normal_fast(COEFFS, idxs, t, scale, th);
+    full_motion(:,:,t) = angle_map(:,:,3);
 end
 
 fprintf('-- Time for Full Video Motion Extraction: %.4f seconds\n', toc(st));
 
+
 %%
 
-shearlet_plot_clusters_over_time(full_cluster_indexes, 2, 90, false, 1:8);
+st = tic;
+
+scales = [2 3]; % [scale_for_representation scale_for_motion]
+th = 0.05;
+
+full_motion = zeros(size(COEFFS,1), size(COEFFS,2), size(COEFFS,3));
+full_cluster_indexes = zeros(size(COEFFS,1), size(COEFFS,2), size(COEFFS,3));
+
+% dictionary
+CENTROIDS = SORT_CTRS;
+
+for t=2:90
+    [REPRESENTATION, angle_map, ~] = shearlet_combined_fast(COEFFS, t, scales, idxs, th, false, true);
+    CL_IND = shearlet_cluster_by_seeds(REPRESENTATION, COEFFS, CENTROIDS);
+    full_cluster_indexes(:,:,t) = shearlet_cluster_image(CL_IND, size(CENTROIDS,1), false, false);    
+    full_motion(:,:,t) = angle_map(:,:,3);
+end
+
+fprintf('-- Time for Full Video Repr./Motion Extraction: %.4f seconds\n', toc(st));
+
+
+%%
+
+shearlet_plot_clusters_over_time(full_cluster_indexes, 1, 90, false, 1:8);
 
 
 %%
@@ -91,7 +119,7 @@ shearlet_plot_clusters_over_time(full_cluster_indexes, 2, 90, false, 1:8);
 full_cluster_filtered = full_cluster_indexes;
 full_cluster_filtered(full_motion == 0) = 0;
 
-shearlet_plot_clusters_over_time(full_cluster_filtered, 2, 90, false, 1:8);
+clusters_ot_image = shearlet_plot_clusters_over_time(full_cluster_filtered, 2, 90, false, 1:8);
 
 
 %%
@@ -100,16 +128,30 @@ count = 1;
 START_IND = 2;
 END_LIM = 90;
 
+cluster_map = shearlet_init_cluster_map;
+
 while true
     
-    subplot(1,2,1);
+    subplot(2,2,1);
     imshow(VID(:,:,START_IND-1+count), []);
     imshow(cat(3,VID(:,:,START_IND-1+count),VID(:,:,START_IND-1+count),VID(:,:,START_IND-1+count))./255);
-    subplot(1,2,2);
-    imshow(abs(full_motion(:,:,count)), [0 1]);
+    subplot(2,2,2);
+    imshow(abs(full_motion(:,:,START_IND-1+count)), [0 1]);
     colormap(hot);
     colorbar;
-%     subplot(1,3,3);
+    
+    subplot(2,2,3);
+    show_rgb = ind2rgb(full_cluster_indexes(:,:,START_IND-1+count), cluster_map);
+    imshow(show_rgb);
+        
+    subplot(2,2,4);
+    count2 = count*(size(clusters_ot_image,2)/(END_LIM-START_IND+1));
+    
+    imshow(clusters_ot_image);
+    hold on;
+    line([count2 count2], [0 size(clusters_ot_image,2)], 'linewidth',4, 'Color',[1 0 0]);    
+    hold off;
+    
 %     imshow(squeeze(color_map(:,:,count, :)));
     
     title(['Frame ' int2str(START_IND-1+count)]);
@@ -128,9 +170,9 @@ while true
     count = count + 1;
         
     % skipping last frames
-    if(count > size(full_motion,3))
+    if(count > size(full_motion,3) || count > END_LIM)
         count = 1;
-        break;
+%         break;
     end
     
 end

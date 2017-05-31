@@ -1,4 +1,4 @@
-function [ coeffs_mat ] = shearlet_descriptor_fast( big_coeffs, t, scale, shearletIdxs, print_debug, profiling)
+function [ coeffs_mat ] = shearlet_descriptor_fast( big_coeffs, t, scale, idxs, print_debug, profiling)
 %SHEARLET_DESCRIPTOR Calculates the shearlet descriptor for the selected
 %time instant and scale on the passed coefficients matrix
 %
@@ -24,7 +24,7 @@ function [ coeffs_mat ] = shearlet_descriptor_fast( big_coeffs, t, scale, shearl
 global MEGAMAP real_indexes fake_indexes
 
 if(isempty(MEGAMAP))
-    shearlet_initialize_megamap(size(big_coeffs), shearletIdxs);
+    shearlet_initialize_megamap(size(big_coeffs), idxs);
 end
     
 % dummy_matrix = zeros(size(big_coeffs,1),size(big_coeffs,2),size(big_coeffs,4));
@@ -114,7 +114,7 @@ end
 % COEFFS_SHIFT = mean(shifted, 4);
 
 %
-COEFFS_SHIFT = shearlet_average_shifted_coeffs(big_coeffs, shearletIdxs, t, 1);
+COEFFS_SHIFT = shearlet_average_shifted_coeffs(big_coeffs, idxs, t, 1);
 
 %%
 
@@ -123,9 +123,9 @@ for xx=2:size(big_coeffs,1)-1
         
     for yy=2:size(big_coeffs,2)-1
         
-        [~, ii] = max(abs(COEFFS_SHIFT(xx, yy, shearletIdxs(:,2) == scale)));
+        [~, ii] = max(abs(COEFFS_SHIFT(xx, yy, idxs(:,2) == scale)));
         
-        ii = find(fake_indexes == real_indexes(ii));
+        ii = find(fake_indexes{scale} == real_indexes{scale}(ii));
         
         coeff_order = squeeze(MEGAMAP(ii,scale,:));
         coeff_order(coeff_order == 0) = 1;
