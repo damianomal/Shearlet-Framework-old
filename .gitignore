@@ -218,3 +218,7 @@ shearlets_samples.zip
 *.avi
 gaurvi.m
 prova_parser_varargin.m
+*.png
+*.mat
+Dataset.lnk
+myfile_prec15.txt

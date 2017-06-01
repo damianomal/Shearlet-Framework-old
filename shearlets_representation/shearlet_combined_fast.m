@@ -45,7 +45,7 @@ for xx=2:size(big_coeffs,1)-1
         
         [mx, ii] = max(abs(COEFFS_SHIFT(xx, yy, idxs(:,2) == scales(2))));
         
-        if(mx < scales(2))
+        if(mx < motion_th)
             continue;
         end
         
