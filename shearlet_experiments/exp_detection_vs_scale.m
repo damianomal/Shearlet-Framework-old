@@ -1,4 +1,3 @@
-
 video_filename = 'person04_boxing_d1_uncomp.avi';
 [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
 
@@ -101,5 +100,3 @@ end
 
 
 %%
-
-
