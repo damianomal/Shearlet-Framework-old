@@ -84,7 +84,7 @@ while run
         fprintf('Processing frame: %d.\n', t+start_cut-1);
         
         %
-        DESCR_MAT = shearlet_descriptor(COEFFS, t, 2, idxs, true);
+        DESCR_MAT = shearlet_descriptor_fast(COEFFS, t, 2, idxs, true);
         CL_IND = shearlet_cluster_by_seeds(DESCR_MAT, COEFFS, centroids);
         CL_SORT = shearlet_cluster_image(CL_IND, size(centroids,1), false, false);
         

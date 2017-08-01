@@ -1,4 +1,4 @@
-function [ coeffs_mat ] = shearlet_descriptor_fast( big_coeffs, t, scale, idxs, print_debug, profiling, skip_border)
+function [ coeffs_mat ] = shearlet_descriptor_fast( big_coeffs, t, scale, idxs, print_debug, profiling)
 %SHEARLET_DESCRIPTOR Calculates the shearlet descriptor for the selected
 %time instant and scale on the passed coefficients matrix
 %
@@ -70,9 +70,6 @@ if(profiling)
    st = tic; 
 end
 
-if(nargin < 7)
-   skip_border = 1; 
-end
 %
 
 
@@ -122,11 +119,12 @@ COEFFS_SHIFT = shearlet_average_shifted_coeffs(big_coeffs, idxs, t, 1);
 %%
 
 
-for xx=1+skip_border:size(big_coeffs,1)-skip_border
+for xx=2:size(big_coeffs,1)-1
         
-    for yy=1+skip_border:size(big_coeffs,2)-skip_border
+    for yy=2:size(big_coeffs,2)-1
         
         [~, ii] = max(abs(COEFFS_SHIFT(xx, yy, idxs(:,2) == scale)));
+        
         ii = find(fake_indexes{scale} == real_indexes{scale}(ii));
         
         coeff_order = squeeze(MEGAMAP(ii,scale,:));

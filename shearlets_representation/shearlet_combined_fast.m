@@ -1,4 +1,4 @@
-function [ coeffs_mat, velocity_map, cone_map ] = shearlet_combined_fast( big_coeffs, t, scales, idxs, motion_th, print_debug, profiling, skip_border)
+function [ coeffs_mat, velocity_map, cone_map ] = shearlet_combined_fast( big_coeffs, t, scales, idxs, motion_th, print_debug, profiling)
 %SHEARLET_COMBINED_FAST Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -19,16 +19,12 @@ if(profiling)
     st = tic;
 end
 
-if(nargin < 8)
-   skip_border = 1; 
-end
-
 COEFFS_SHIFT = shearlet_average_shifted_coeffs(big_coeffs, idxs, t, 1);
 
 
-for xx=1+skip_border:size(big_coeffs,1)-skip_border
+for xx=2:size(big_coeffs,1)-1
     
-    for yy=1+skip_border:size(big_coeffs,2)-skip_border
+    for yy=2:size(big_coeffs,2)-1
         
         % part about the representation
         
@@ -68,7 +64,7 @@ end
 
 % 
 if(profiling)
-    fprintf('-- Time for Repr./Motion Extraction: %.4f seconds\n', toc(st));
+    fprintf('-- Time for Repr./Motion Extraction of frame %.0f: %.4f seconds\n', t, toc(st));
 end
 
 
