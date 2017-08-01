@@ -3,7 +3,9 @@ function img = shearlet_plot_clusters_over_time( clusters_idx, t_start, t_end, o
 %   Detailed explanation goes here
 
 
-close all;
+% close all;
+
+figure;
 
 if(~exist('cluster_map') || isempty(cluster_map))
     cluster_map =  shearlet_init_cluster_map;

@@ -100,12 +100,15 @@ figure;
 % cycle over the whole sequence
 while true
     
+%     c = 45;
+    
     % selects the points found in the current frame
-    id = find(k==c);
+%     id = find(k==c);
+    id = find(k>=c-1 & k <= c+1);
     
     % showing the current frame in the sequence
     subplot(1,num_plots,1);
-    imshow(video(:,:,c), []);
+    imshow(video(:,:,c), [0 255]);
     
     subplot(1,num_plots, 2);
     
@@ -160,12 +163,17 @@ while true
     % to a new frame of the video sequence (the lines still commented
     % are meant to be used in some scenarios)
     if(nargin >= 8)
-        %             outimg(:, 1:size(VID(:,:,1),2), :) = cat(3, VID(:,:,c),VID(:,:,c),VID(:,:,c));
-        %             outimg(:,size(VID(:,:,1),2)+20+1:end, :) = ttemp * 255;
-        %             writeVideo(vidOut, outimg / 255.);
+%                     outimg(:, 1:size(video(:,:,1),2), :) = cat(3, video(:,:,c),video(:,:,c),video(:,:,c));
+%                     outimg(:,size(video(:,:,1),2)+20+1:end, :) = ttemp * 255;
+%                     data = outimg / 255.;
+%         
+%         ff = getframe(gcf);
+%         data = ff.cdata(134:264, 81:515, :);
         
-        ff = getframe(gcf);
-        data = ff.cdata(134:264, 81:515, :);
+        subplot(1,num_plots,1);
+        ff = getframe(gca);
+        data = ff.cdata;
+        
         
         for rep=1:repeated_frames
             writeVideo(vidOut, data);

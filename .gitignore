@@ -222,3 +222,8 @@ prova_parser_varargin.m
 *.mat
 Dataset.lnk
 myfile_prec15.txt
+freezeColors/unfreezeColors.m
+freezeColors/test/test_main.m
+freezeColors/demo/html/freezeColors_pub.html
+graph_viewer.fig
+myaa/screenshot.jpg

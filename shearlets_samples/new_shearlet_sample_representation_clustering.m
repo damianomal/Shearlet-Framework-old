@@ -34,7 +34,7 @@ clear COEFFS idxs
 % calculate the representation for a specific frame (frame number 37 of the
 % sequence represented in the VID structure)
 
-TARGET_FRAME = 37;
+TARGET_FRAME = 25;
 SCALE_USED = 2;
 
 REPRESENTATION = shearlet_descriptor_fast(COEFFS, TARGET_FRAME, SCALE_USED, idxs, true, true);
@@ -44,12 +44,14 @@ REPRESENTATION = shearlet_descriptor_fast(COEFFS, TARGET_FRAME, SCALE_USED, idxs
 
 %% VISUALIZING THE CLUSTERING RESULTS FOR A FIXED NUMBER OF CLUSTERS
 
-CLUSTER_NUMBER = 8;
+CLUSTER_NUMBER = 4;
 [CL_IND, CTRS] = shearlet_cluster_coefficients(REPRESENTATION, CLUSTER_NUMBER, [size(COEFFS,1) size(COEFFS,2)]);
 
 % sorts the clusters with respect to their size, and also rea
 
 [SORTED_CL_IMAGE, SORT_CTRS] = shearlet_cluster_sort(CL_IND, CTRS);
+
+%%
 
 % shows a colormap associated with the clusters found
 

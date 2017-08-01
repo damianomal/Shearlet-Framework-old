@@ -9,10 +9,7 @@ opts = statset('Display','final', 'MaxIter',200);
 % coeffs_mat(end-pad*sizes(2)+1:end, :) = repmat(coeffs_mat(end-pad*sizes(2), :),pad*sizes(2) ,1);
 
 % [cidx, ctrs] = kmeans(coeffs_mat, cluster_num, 'Distance', 'sqeuclidean', 'Replicates',3, 'Options',opts);
-[cidxt, ctrs] = kmeans(coeffs_mat(sum(coeffs_mat,2)~=0,:), cluster_num, 'Distance', 'sqeuclidean', 'Replicates',3, 'Options',opts);
-
-cidx = zeros(size(coeffs_mat,1),1);
-cidx(sum(coeffs_mat,2)~=0) = cidxt;
+[cidx, ctrs] = kmeans(coeffs_mat(sum(coeffs_mat,2)~=0,:), cluster_num, 'Distance', 'sqeuclidean', 'Replicates',3, 'Options',opts);
 
 res_clusters = reshape(cidx, sizes(2), sizes(1), 1);
 res_clusters = res_clusters';

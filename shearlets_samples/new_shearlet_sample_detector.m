@@ -4,8 +4,8 @@
 % load the video sequence
 
 clear VID 
-video_filename = 'walk-complex.avi';
-[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
+% video_filename = 'walk-complex.avi';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = '7-0006.mp4';
 % [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
@@ -15,9 +15,9 @@ video_filename = 'walk-complex.avi';
 % [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'person04_boxing_d1_uncomp.avi';
-% video_filename = 'person01_handwaving_d1_uncomp.avi';
+video_filename = 'person01_handwaving_d1_uncomp.avi';
 % video_filename = 'person01_walking_d1_uncomp.avi';
-% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
+[VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
 
 % video_filename = 'alessia_rectangle.mp4';
 % [VID, COLOR_VID] = load_video_to_mat(video_filename,160, 600,700, true);
@@ -29,6 +29,20 @@ video_filename = 'walk-complex.avi';
 % video_filename = 'Sample0006_color.mp4';
 % [VID, COLOR_VID] = load_video_to_mat(video_filename,160,550,650, true);
 
+% video_filename = 'TRUCK.mp4';
+% VID = load_video_to_mat(video_filename,160,1300,1400, true);
+
+% video_filename = 'competition_1_2_xvid.avi';
+% VID = load_video_to_mat(video_filename,160,150,250, true);
+
+
+% video_filename = '3528-10_70424.avi';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
+
+% video_filename = 'RF1-13157_70040.avi';
+% [VID, COLOR_VID] = load_video_to_mat(video_filename,160,1,100, true);
+
+
 % calculate the 3D Shearlet Transform
 
 clear COEFFS idxs
@@ -37,16 +51,35 @@ clear COEFFS idxs
 %%
 
 % parameters for the detection process
-LOWER_THRESHOLD = 0.1;
-SPT_WINDOW = 7;
-SCALES = [2];
+LOWER_THRESHOLD = 0.005;
+SPT_WINDOW = 5;
+SCALES = [2 3];
 CONE_WEIGHTS = [1 1 1];
+% CONE_WEIGHTS = [1.4 0.2 1.4];
+
+% kth handwaving
+% LOWER_THRESHOLD = 0.01;
+% SPT_WINDOW = 9;
+% SCALES = [2 3];
+% CONE_WEIGHTS = [1 1.4 0.6];
+
+% video 3528-10_70424.avi
+% LOWER_THRESHOLD = 0.1;
+% SPT_WINDOW = 11;
+% SCALES = [2];
+% CONE_WEIGHTS = [0.6 1.8 0.6];
+
+% video RF1-13157_70040.avi
+% LOWER_THRESHOLD = 0.005;
+% SPT_WINDOW = 9;
+% SCALES = [3];
+% CONE_WEIGHTS = [0.6 1.8 0.6];
 
 % video walking 1 1
-LOWER_THRESHOLD = 0.1;
-SPT_WINDOW = 11;
-SCALES = [2];
-CONE_WEIGHTS = [1 1 1];
+% LOWER_THRESHOLD = 0.1;
+% SPT_WINDOW = 11;
+% SCALES = [2];
+% CONE_WEIGHTS = [1 1 1];
 
 % LOWER_THRESHOLD = 0.02;
 % SPT_WINDOW = 9;
@@ -54,23 +87,31 @@ CONE_WEIGHTS = [1 1 1];
 % CONE_WEIGHTS = [1 1 1];
 
 % video walk-complex.avi
-LOWER_THRESHOLD = 0.5;
-SPT_WINDOW = 9;
-SCALES = [2];
-CONE_WEIGHTS = [1.4 1.2 0.6];
+% LOWER_THRESHOLD = 0.5;
+% SPT_WINDOW = 9;
+% SCALES = [2];
+% CONE_WEIGHTS = [1.4 1.2 0.6];
+
+% video TRUCK.mp4
+% LOWER_THRESHOLD = 0.01;
+% SPT_WINDOW = 3;
+% SCALES = [3];
+% CONE_WEIGHTS = [0.8 1.6 0.6];
 
 % detect spatio-temporal interesting points within the sequence
 
 close all;
 
-output_name = shearlet_create_video_outname( video_filename, SCALES, LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS);
+output_name = ['IBPRIA/' shearlet_create_video_outname( video_filename, SCALES, LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS)];
 
 [COORDINATES, CHANGE_MAP] = shearlet_detect_points( VID(:,:,1:91), COEFFS, SCALES, [], LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS, false, output_name);
+% [COORDINATES, CHANGE_MAP] = shearlet_detect_points( VID, COEFFS, SCALES, [], LOWER_THRESHOLD, SPT_WINDOW, CONE_WEIGHTS, false, output_name);
 
 
 %%
 
-shearlet_play_overlay_points(COLOR_VID(:,:,:,1:91)./255, COORDINATES, true, 1)
+% shearlet_play_overlay_points(COLOR_VID(:,.:,:,1:91)./255, COORDINATES, true, 1)
+shearlet_play_overlay_points(COLOR_VID./255, COORDINATES, true, 3)
 
 %%
 
