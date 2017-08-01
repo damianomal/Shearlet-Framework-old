@@ -1,12 +1,17 @@
-function img = shearlet_plot_clusters_over_time( clusters_idx, t_start, t_end, only_return_image, clusters_to_show)
+function [img, flow] = shearlet_plot_clusters_over_time( clusters_idx, t_start, t_end, only_return_image, clusters_to_show, type, normalize)
 %SHEARLET_PLOT_CLUSTERS_OVER_TIME Summary of this function goes here
-%   Detailed explanation goes here
-
+%  Inputs:
+%       cluster_idx:
+%       .
+%       .
+%       .
+%       type: can have value "all" or "non-zero".
 
 % close all;
 
-figure;
+mm = shearlet_init_cluster_map;
 
+figure, hold on
 if(~exist('cluster_map') || isempty(cluster_map))
     cluster_map =  shearlet_init_cluster_map;
 end
@@ -20,6 +25,13 @@ if(nargin < 5)
     end
 end
 
+if nargin < 6
+    type = 'all';
+end
+
+if nargin< 7
+    normalize = false;
+end
 %
 BASELINE = 5;
 
@@ -44,12 +56,11 @@ h = zeros(1,numel(clusters_to_show));
 % names = cell(1, END_VAL - START_VAL + 1);
 
 %
-h_index = 1;
+h_index = 0;
 
 %
 % titles = {'background', 'background', 'background (higher)', 'far edges', ...
 %     'corner(ish)', 'edges', 'dyn. edges', 'dyn. corners'};
-
 
 % if(~only_return_image)
 %     figure;
@@ -57,22 +68,37 @@ h_index = 1;
 
 %
 % for i=START_VAL:END_VAL
+legendInfo{1} = '';
 for i=clusters_to_show
     
+    h_index = h_index + 1;
     %
     d = squeeze(sum(sum(mat5 == i,1),2));
-    
+    flow(:,i) = d;
+   if strcmp(type,'nonzero')
+        if sum(d)<10
+            continue
+        end
+   end
+   if normalize && sum(d)>0      
+        dd = ((d/ max(d))* 2)-1;
+        d=dd;
+        clear dd
+        flow(:,i) = d;
+    end
+ 
+        
     %
     plot(1:numel(d), d, 'LineWidth', BASELINE+1, 'Color', [0 0 0]);
     h(h_index) = plot(1:numel(d), d, 'LineWidth', BASELINE, 'Color', cluster_map(i, :));
     
+    legendInfo = [legendInfo ['Cluster ' num2str(i)]];
     %
     %     names{h_index} = titles{i};
     
-    %
-    h_index = h_index + 1;
 end
-
+% legendInfo = sqeeze(legendInfo);
+legend(legendInfo{2:end});
 %
 % lgd = legend(h, names);
 
@@ -89,7 +115,7 @@ img = f.cdata;
 
 %
 if(only_return_image)
-    close(fH);
+    close all %(lgd);
 end
 
 end

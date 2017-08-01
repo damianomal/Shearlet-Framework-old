@@ -1,4 +1,4 @@
-function shearlet_show_cluster_colors(siz)
+    function shearlet_show_cluster_colors(siz)
 %SHEARLET_SHOW_CLUSTER_COLORS Summary of this function goes here
 %   Detailed explanation goes here
 

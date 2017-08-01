@@ -20,8 +20,6 @@ figure;
 % cycle over the whole sequence
 while true
     
-    c = 37;
-    
     % selects the points found in the current frame
     if(nargin == 4 && win >= 0)
         id = find(abs(k-c)<=win);
